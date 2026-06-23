@@ -1,0 +1,131 @@
+local Mercury = loadstring(game:HttpGet("https://raw.githubusercontent.com/deeeity/mercury-lib/master/src.lua"))()
+
+local GUI = Mercury:Create{
+    Name = "ASH (AYES SCRIPT HUB)",
+    Size = UDim2.fromOffset(600, 400),
+    Theme = Mercury.Themes.Dark,
+    Link = "https://github.com/deeeity/mercury-lib"
+}
+
+-- ==========================================
+-- MAIN TAB
+-- ==========================================
+local MainTab = GUI:Tab{
+    Name = "MAIN",
+}
+
+MainTab:Button{
+    Name = "Fly",
+    Description = "Loads a fly script",
+    Callback = function() 
+        loadstring(game:HttpGet("https://obj.wearedevs.net/2/scripts/Fly.lua"))()
+    end
+}
+
+MainTab:Button{
+    Name = "Infinite Yield",
+    Description = "What's that? OH SHOOT A HACKER IS SPINNING FAST AHHHHH",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+    end
+}
+
+-- ==========================================
+-- BROOKHAVEN HUBS TAB
+-- ==========================================
+local BrookhavenTab = GUI:Tab{
+    Name = "Brookhaven hubs",
+}
+
+BrookhavenTab:Button{
+    Name = "Hexagon",
+    Description = "Hexagon hexagon AYYY WHAT THE HELL IS THAT A HACKER",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/nxvap/Hexagon/refs/heads/main/brookhaven"))()
+    end
+}
+
+BrookhavenTab:Button{
+    Name = "Sander X",
+    Description = "HAHA I HAVE VIP 'bro it's not that special'",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/kigredns/SanderXV4.2.2/refs/heads/main/New.lua'))()
+    end
+}
+
+-- ==========================================
+-- BYPASS TOGGLE & SKULL ICON SYSTEM
+-- ==========================================
+local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local TargetGuiContainer = CoreGui:FindFirstChild("Mercury") or LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("Mercury")
+local MainFrame = nil
+if TargetGuiContainer then
+    MainFrame = TargetGuiContainer:FindFirstChildWhichIsA("Frame") or TargetGuiContainer:FindFirstChild("Main")
+end
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ASH_MinButton"
+ScreenGui.Parent = CoreGui:IsA("PlayerGui") and CoreGui or LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+local MinButton = Instance.new("TextButton")
+MinButton.Name = "SkullIcon"
+MinButton.Parent = ScreenGui
+MinButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MinButton.BorderSizePixel = 0
+MinButton.Position = UDim2.new(0, 10, 0.5, -25)
+MinButton.Size = UDim2.new(0, 50, 0, 50)
+MinButton.Font = Enum.Font.SourceSansBold
+MinButton.Text = "💀"
+MinButton.TextSize = 35
+MinButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinButton.Visible = false
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = MinButton
+
+local menuOpen = true
+
+local function toggleMenu()
+    menuOpen = not menuOpen
+    
+    if not TargetGuiContainer or not MainFrame then
+        TargetGuiContainer = CoreGui:FindFirstChild("Mercury") or LocalPlayer.PlayerGui:FindFirstChild("Mercury")
+        if TargetGuiContainer then
+            MainFrame = TargetGuiContainer:FindFirstChildWhichIsA("Frame") or TargetGuiContainer:FindFirstChild("Main")
+        end
+    end
+
+    if TargetGuiContainer then
+        TargetGuiContainer.Enabled = menuOpen
+    elseif MainFrame then
+        MainFrame.Visible = menuOpen
+    end
+    
+    MinButton.Visible = not menuOpen
+end
+
+MinButton.MouseButton1Click:Connect(function()
+    toggleMenu()
+end)
+
+MainTab:Button{
+    Name = "Minimize Menu",
+    Description = "Minimizes the menu into a skull icon",
+    Callback = function()
+        toggleMenu()
+    end
+}
+
+-- ==========================================
+-- LOADED NOTIFICATION
+-- ==========================================
+GUI:Notification{
+    Title = "ASH Loaded",
+    Text = "Ayes Script Hub is active! Minimize button is located inside MAIN.",
+    Duration = 5
+}
