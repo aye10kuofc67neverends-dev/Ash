@@ -1,118 +1,112 @@
--- ASH..-AYE Admin Panel v4 (With Custom Discord Link)
-local Players = game:GetService("Players")
-local UserInputService = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
-local Workspace = game:GetService("Workspace")
-local Lighting = game:GetService("Lighting")
-local TeleportService = game:GetService("TeleportService")
-local HttpService = game:GetService("HttpService")
-local StarterGui = game:GetService("StarterGui")
+-- ASH..-AYE v4 (Block 1: Services & Environment)
+shared.ASH = shared.ASH or {}
+local ASH = shared.ASH
 
-local player = Players.LocalPlayer
-local camera = Workspace.CurrentCamera
-local playerGui = player:WaitForChild("PlayerGui", 10)
+ASH.Players = game:GetService("Players")
+ASH.UserInputService = game:GetService("UserInputService")
+ASH.RunService = game:GetService("RunService")
+ASH.Workspace = game:GetService("Workspace")
+ASH.Lighting = game:GetService("Lighting")
+ASH.TeleportService = game:GetService("TeleportService")
+ASH.HttpService = game:GetService("HttpService")
+ASH.StarterGui = game:GetService("StarterGui")
 
--- Configuration Settings
-local DISCORD_INVITE = "https://discord.gg/WUaDHv55e"
+ASH.player = ASH.Players.LocalPlayer
+ASH.camera = ASH.Workspace.CurrentCamera
+ASH.playerGui = ASH.player:WaitForChild("PlayerGui", 10)
+ASH.DISCORD_INVITE = "https://discord.gg/WUaDHv55e"
 
--- Clean up existing UI to prevent overlapping instances
-local existingGui = playerGui:FindFirstChild("ASH_AYE_AdminPanel")
-if existingGui then
-	existingGui:Destroy()
-end
+local existingGui = ASH.playerGui:FindFirstChild("ASH_AYE_AdminPanel")
+if existingGui then existingGui:Destroy() end
+-- ASH..-AYE v4 (Block 2: GUI Container Window)
+local ASH = shared.ASH
 
--- ScreenGui Setup
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "ASH_AYE_AdminPanel"
-screenGui.ResetOnSpawn = false
-screenGui.DisplayOrder = 9999
-screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-screenGui.Parent = playerGui
+ASH.screenGui = Instance.new("ScreenGui")
+ASH.screenGui.Name = "ASH_AYE_AdminPanel"
+ASH.screenGui.ResetOnSpawn = false
+ASH.screenGui.DisplayOrder = 9999
+ASH.screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ASH.screenGui.Parent = ASH.playerGui
 
--- Main Frame Window
-local mainFrame = Instance.new("Frame")
-mainFrame.Name = "MainFrame"
-mainFrame.Size = UDim2.new(0, 680, 0, 260)
-mainFrame.Position = UDim2.new(0.5, -340, 0.05, 0)
-mainFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
-mainFrame.BorderSizePixel = 0
-mainFrame.Active = true
-mainFrame.Draggable = true
-mainFrame.ZIndex = 100
-mainFrame.Parent = screenGui
+ASH.mainFrame = Instance.new("Frame")
+ASH.mainFrame.Name = "MainFrame"
+ASH.mainFrame.Size = UDim2.new(0, 680, 0, 260)
+ASH.mainFrame.Position = UDim2.new(0.5, -340, 0.05, 0)
+ASH.mainFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
+ASH.mainFrame.BorderSizePixel = 0
+ASH.mainFrame.Active = true
+ASH.mainFrame.Draggable = true
+ASH.mainFrame.ZIndex = 100
+ASH.mainFrame.Parent = ASH.screenGui
 
-Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 10)
+Instance.new("UICorner", ASH.mainFrame).CornerRadius = UDim.new(0, 10)
+-- ASH..-AYE v4 (Block 3: Top Bar, Search & Discord Button)
+local ASH = shared.ASH
 
--- Top Header Bar
-local topBar = Instance.new("Frame")
-topBar.Name = "TopBar"
-topBar.Size = UDim2.new(1, 0, 0, 36)
-topBar.BackgroundColor3 = Color3.fromRGB(12, 12, 16)
-topBar.BorderSizePixel = 0
-topBar.ZIndex = 101
-topBar.Parent = mainFrame
+ASH.topBar = Instance.new("Frame")
+ASH.topBar.Name = "TopBar"
+ASH.topBar.Size = UDim2.new(1, 0, 0, 36)
+ASH.topBar.BackgroundColor3 = Color3.fromRGB(12, 12, 16)
+ASH.topBar.BorderSizePixel = 0
+ASH.topBar.ZIndex = 101
+ASH.topBar.Parent = ASH.mainFrame
 
-Instance.new("UICorner", topBar).CornerRadius = UDim.new(0, 10)
+Instance.new("UICorner", ASH.topBar).CornerRadius = UDim.new(0, 10)
 
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Size = UDim2.new(0, 210, 1, 0)
 titleLabel.Position = UDim2.new(0, 12, 0, 0)
 titleLabel.BackgroundTransparency = 1
-titleLabel.Text = "ASH..-AYE v4 [100+ COMMANDS]"
+titleLabel.Text = "ASH..-AYE v4 [100 COMMANDS]"
 titleLabel.TextColor3 = Color3.fromRGB(255, 65, 65)
 titleLabel.TextSize = 12
 titleLabel.Font = Enum.Font.GothamBold
 titleLabel.TextXAlignment = Enum.TextXAlignment.Left
 titleLabel.ZIndex = 102
-titleLabel.Parent = topBar
+titleLabel.Parent = ASH.topBar
 
-local searchBox = Instance.new("TextBox")
-searchBox.Name = "SearchBox"
-searchBox.Size = UDim2.new(0, 200, 0, 24)
-searchBox.Position = UDim2.new(1, -315, 0.5, -12)
-searchBox.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
-searchBox.PlaceholderText = "Search 100+ commands..."
-searchBox.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
-searchBox.Text = ""
-searchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-searchBox.TextSize = 11
-searchBox.Font = Enum.Font.Gotham
-searchBox.ZIndex = 102
-searchBox.Parent = topBar
+ASH.searchBox = Instance.new("TextBox")
+ASH.searchBox.Name = "SearchBox"
+ASH.searchBox.Size = UDim2.new(0, 200, 0, 24)
+ASH.searchBox.Position = UDim2.new(1, -315, 0.5, -12)
+ASH.searchBox.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
+ASH.searchBox.PlaceholderText = "Search commands..."
+ASH.searchBox.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+ASH.searchBox.Text = ""
+ASH.searchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+ASH.searchBox.TextSize = 11
+ASH.searchBox.Font = Enum.Font.Gotham
+ASH.searchBox.ZIndex = 102
+ASH.searchBox.Parent = ASH.topBar
 
-Instance.new("UICorner", searchBox).CornerRadius = UDim.new(0, 6)
+Instance.new("UICorner", ASH.searchBox).CornerRadius = UDim.new(0, 6)
 
--- Discord Invite Button
 local discordBtn = Instance.new("TextButton")
 discordBtn.Name = "DiscordButton"
 discordBtn.Size = UDim2.new(0, 70, 0, 24)
 discordBtn.Position = UDim2.new(1, -108, 0.5, -12)
-discordBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242) -- Discord Blurple
+discordBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
 discordBtn.Text = "Discord"
 discordBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 discordBtn.TextSize = 11
 discordBtn.Font = Enum.Font.GothamBold
 discordBtn.ZIndex = 102
-discordBtn.Parent = topBar
+discordBtn.Parent = ASH.topBar
 
 Instance.new("UICorner", discordBtn).CornerRadius = UDim.new(0, 6)
 
 discordBtn.MouseButton1Click:Connect(function()
 	pcall(function()
-		if setclipboard then
-			setclipboard(DISCORD_INVITE)
-		end
-		StarterGui:SetCore("SendNotification", {
+		if setclipboard then setclipboard(ASH.DISCORD_INVITE) end
+		ASH.StarterGui:SetCore("SendNotification", {
 			Title = "ASH..-AYE Admin",
-			Text = "Discord invite link copied to clipboard!",
-			Duration = 4
+			Text = "Discord invite copied to clipboard!",
+			Duration = 3
 		})
 	end)
 end)
 
--- Minimize Button
 local minimizeBtn = Instance.new("TextButton")
-minimizeBtn.Name = "MinimizeButton"
 minimizeBtn.Size = UDim2.new(0, 24, 0, 24)
 minimizeBtn.Position = UDim2.new(1, -32, 0.5, -12)
 minimizeBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 60)
@@ -121,12 +115,11 @@ minimizeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 minimizeBtn.TextSize = 16
 minimizeBtn.Font = Enum.Font.GothamBold
 minimizeBtn.ZIndex = 102
-minimizeBtn.Parent = topBar
+minimizeBtn.Parent = ASH.topBar
 
 Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(0, 6)
 
 local minimizedTab = Instance.new("TextButton")
-minimizedTab.Name = "MinimizedTab"
 minimizedTab.Size = UDim2.new(0, 170, 0, 40)
 minimizedTab.Position = UDim2.new(0, 10, 0.05, 0)
 minimizedTab.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
@@ -136,40 +129,39 @@ minimizedTab.TextSize = 13
 minimizedTab.Font = Enum.Font.GothamBold
 minimizedTab.Visible = false
 minimizedTab.ZIndex = 1000
-minimizedTab.Parent = screenGui
+minimizedTab.Parent = ASH.screenGui
 
 Instance.new("UICorner", minimizedTab).CornerRadius = UDim.new(0, 8)
 
 minimizeBtn.MouseButton1Click:Connect(function()
-	mainFrame.Visible = false
+	ASH.mainFrame.Visible = false
 	minimizedTab.Visible = true
 end)
 
 minimizedTab.MouseButton1Click:Connect(function()
-	mainFrame.Visible = true
+	ASH.mainFrame.Visible = true
 	minimizedTab.Visible = false
 end)
+-- ASH..-AYE v4 (Block 4: Category Tabs & Mobile Canvas)
+local ASH = shared.ASH
 
--- Category Tab Bar & Scrolling Canvas Engine
-local tabBar = Instance.new("Frame")
-tabBar.Name = "TabBar"
-tabBar.Size = UDim2.new(1, -16, 0, 26)
-tabBar.Position = UDim2.new(0, 8, 0, 40)
-tabBar.BackgroundTransparency = 1
-tabBar.ZIndex = 101
-tabBar.Parent = mainFrame
+ASH.tabBar = Instance.new("Frame")
+ASH.tabBar.Size = UDim2.new(1, -16, 0, 26)
+ASH.tabBar.Position = UDim2.new(0, 8, 0, 40)
+ASH.tabBar.BackgroundTransparency = 1
+ASH.tabBar.ZIndex = 101
+ASH.tabBar.Parent = ASH.mainFrame
 
 local tabLayout = Instance.new("UIListLayout")
 tabLayout.FillDirection = Enum.FillDirection.Horizontal
 tabLayout.Padding = UDim.new(0, 4)
-tabLayout.Parent = tabBar
+tabLayout.Parent = ASH.tabBar
 
-local tabContainers = {}
-local registeredButtons = {}
+ASH.tabContainers = {}
+ASH.registeredButtons = {}
 
 local function createTab(tabName)
 	local tabBtn = Instance.new("TextButton")
-	tabBtn.Name = tabName .. "Tab"
 	tabBtn.Size = UDim2.new(0.166, -3, 1, 0)
 	tabBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 42)
 	tabBtn.Text = tabName
@@ -177,11 +169,10 @@ local function createTab(tabName)
 	tabBtn.TextSize = 10
 	tabBtn.Font = Enum.Font.GothamBold
 	tabBtn.ZIndex = 102
-	tabBtn.Parent = tabBar
+	tabBtn.Parent = ASH.tabBar
 	Instance.new("UICorner", tabBtn).CornerRadius = UDim.new(0, 5)
 
 	local container = Instance.new("ScrollingFrame")
-	container.Name = tabName .. "Container"
 	container.Size = UDim2.new(1, -16, 1, -74)
 	container.Position = UDim2.new(0, 8, 0, 68)
 	container.BackgroundTransparency = 1
@@ -190,7 +181,7 @@ local function createTab(tabName)
 	container.CanvasSize = UDim2.new(0, 0, 0, 600)
 	container.Visible = false
 	container.ZIndex = 101
-	container.Parent = mainFrame
+	container.Parent = ASH.mainFrame
 
 	local grid = Instance.new("UIGridLayout")
 	grid.CellSize = UDim2.new(0.188, -4, 0, 34)
@@ -207,19 +198,19 @@ local function createTab(tabName)
 	grid:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateCanvas)
 	container.ChildAdded:Connect(updateCanvas)
 
-	tabContainers[tabName] = {Button = tabBtn, Container = container, Grid = grid}
+	ASH.tabContainers[tabName] = {Button = tabBtn, Container = container, Grid = grid}
 	return container
 end
 
-local mainTab = createTab("Main")
-local moveTab = createTab("Movement")
-local visTab = createTab("Visuals")
-local utilTab = createTab("Utility")
-local funTab = createTab("Fun")
-local worldTab = createTab("World")
+ASH.mainTab = createTab("Main")
+ASH.moveTab = createTab("Movement")
+ASH.visTab = createTab("Visuals")
+ASH.utilTab = createTab("Utility")
+ASH.funTab = createTab("Fun")
+ASH.worldTab = createTab("World")
 
 local function switchTab(selected)
-	for name, data in pairs(tabContainers) do
+	for name, data in pairs(ASH.tabContainers) do
 		if name == selected then
 			data.Container.Visible = true
 			data.Button.BackgroundColor3 = Color3.fromRGB(255, 65, 65)
@@ -233,15 +224,15 @@ local function switchTab(selected)
 	end
 end
 
-for name, data in pairs(tabContainers) do
+for name, data in pairs(ASH.tabContainers) do
 	data.Button.MouseButton1Click:Connect(function() switchTab(name) end)
 end
 
 switchTab("Main")
 
-searchBox:GetPropertyChangedSignal("Text"):Connect(function()
-	local query = searchBox.Text:lower()
-	for _, data in ipairs(registeredButtons) do
+ASH.searchBox:GetPropertyChangedSignal("Text"):Connect(function()
+	local query = ASH.searchBox.Text:lower()
+	for _, data in ipairs(ASH.registeredButtons) do
 		if query == "" or data.Label:lower():find(query) then
 			data.Button.Visible = true
 		else
@@ -250,8 +241,7 @@ searchBox:GetPropertyChangedSignal("Text"):Connect(function()
 	end
 end)
 
--- Button Factory
-local function createButton(parentContainer, name, labelText, order)
+function ASH.createButton(parentContainer, name, labelText, order, callback)
 	local btn = Instance.new("TextButton")
 	btn.Name = name
 	btn.BackgroundColor3 = Color3.fromRGB(36, 36, 50)
@@ -265,203 +255,324 @@ local function createButton(parentContainer, name, labelText, order)
 	btn.Parent = parentContainer
 	
 	Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 5)
-	table.insert(registeredButtons, {Button = btn, Label = labelText})
+	table.insert(ASH.registeredButtons, {Button = btn, Label = labelText})
+
+	if callback then
+		btn.MouseButton1Click:Connect(function()
+			pcall(callback)
+		end)
+	end
 	return btn
 end
+-- ASH..-AYE v4 (Block 5: Main Tab Features)
+local ASH = shared.ASH
+ASH.isFlying = false
+ASH.bodyVelocity, ASH.bodyGyro, ASH.flyConnection = nil, nil, nil
 
--- MAIN TAB
-local btnFly = createButton(mainTab, "BtnFly", "1. Fly", 1)
-local btnGoto = createButton(mainTab, "BtnGoto", "2. Go To", 2)
-local btnSpeed = createButton(mainTab, "BtnSpeed", "3. Speed (2x)", 3)
-local btnJump = createButton(mainTab, "BtnJump", "4. High Jump", 4)
-local btnNoclip = createButton(mainTab, "BtnNoclip", "5. Noclip", 5)
-local btnFling = createButton(mainTab, "BtnFling", "6. Spin Fling", 6)
-local btnFreeze = createButton(mainTab, "BtnFreeze", "7. Freeze Self", 7)
-local btnGodMode = createButton(mainTab, "BtnGodMode", "8. Anti-Damage", 8)
-local btnAnchor = createButton(mainTab, "BtnAnchor", "9. Anchor Root", 9)
-local btnKill = createButton(mainTab, "BtnKill", "10. Reset Self", 10)
-local btnBring = createButton(mainTab, "BtnBring", "11. Bring Player", 11)
-local btnUnfly = createButton(mainTab, "BtnUnfly", "12. Stop Fly", 12)
-local btnSit = createButton(mainTab, "BtnSit", "13. Force Sit", 13)
-local btnLay = createButton(mainTab, "BtnLay", "14. Lay Down", 14)
-local btnStand = createButton(mainTab, "BtnStand", "15. Stand Up", 15)
-local btnSpin = createButton(mainTab, "BtnSpin", "16. Torso Spin", 16)
-local btnUnspin = createButton(mainTab, "BtnUnspin", "17. Stop Spin", 17)
-local btnRespawn = createButton(mainTab, "BtnRespawn", "18. Fast Respawn", 18)
+ASH.createButton(ASH.mainTab, "BtnFly", "1. Fly", 1, function()
+	ASH.isFlying = not ASH.isFlying
+	local character = ASH.player.Character
+	if not character then return end
+	local rootPart = character:FindFirstChild("HumanoidRootPart")
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	if not rootPart or not humanoid then return end
 
--- MOVEMENT TAB
-local btnInfJump = createButton(moveTab, "BtnInfJump", "19. Inf Jump", 1)
-local btnClickTP = createButton(moveTab, "BtnClickTP", "20. Click TP", 2)
-local btnFloat = createButton(moveTab, "BtnFloat", "21. Air Float", 3)
-local btnAirwalk = createButton(moveTab, "BtnAirwalk", "22. Air Walk", 4)
-local btnSwim = createButton(moveTab, "BtnSwim", "23. Air Swim", 5)
-local btnWallRun = createButton(moveTab, "BtnWallRun", "24. Spider Wall", 6)
-local btnSlowMo = createButton(moveTab, "BtnSlowMo", "25. Slow Motion", 7)
-local btnFastFall = createButton(moveTab, "BtnFastFall", "26. Fast Fall", 8)
-local btnDash = createButton(moveTab, "BtnDash", "27. Impulse Dash", 9)
-local btnAutoForward = createButton(moveTab, "BtnAutoForward", "28. Auto Walk", 10)
-local btnHighGravity = createButton(moveTab, "BtnHighGravity", "29. High Gravity", 11)
-local btnLowGravity = createButton(moveTab, "BtnLowGravity", "30. Zero Gravity", 12)
-local btnBunnyHop = createButton(moveTab, "BtnBunnyHop", "31. Bunny Hop", 13)
-local btnJetpack = createButton(moveTab, "BtnJetpack", "32. Jetpack", 14)
-local btnDismount = createButton(moveTab, "BtnDismount", "33. Seat Eject", 15)
-local btnAirHop = createButton(moveTab, "BtnAirHop", "34. Air Hop", 16)
-local btnSmoothWalk = createButton(moveTab, "BtnSmoothWalk", "35. Smooth Walk", 17)
-local btnFastWalk = createButton(moveTab, "BtnFastWalk", "36. Super Sprint", 18)
-local btnAutoJump = createButton(moveTab, "BtnAutoJump", "37. Auto Jump", 19)
-local btnDodge = createButton(moveTab, "BtnDodge", "38. Side Dodge", 20)
+	if ASH.flyConnection then ASH.flyConnection:Disconnect() end
+	if ASH.bodyVelocity then ASH.bodyVelocity:Destroy() end
+	if ASH.bodyGyro then ASH.bodyGyro:Destroy() end
 
--- VISUALS TAB
-local btnTornado = createButton(visTab, "BtnTornado", "39. Tornado", 1)
-local btnInvis = createButton(visTab, "BtnInvis", "40. Invisible", 2)
-local btnBright = createButton(visTab, "BtnBright", "41. Full Bright", 3)
-local btnAshTag = createButton(visTab, "BtnAshTag", "42. ASH Tag", 4)
-local btnESP = createButton(visTab, "BtnESP", "43. Box ESP", 5)
-local btnTracers = createButton(visTab, "BtnTracers", "44. Tracers", 6)
-local btnOrbit = createButton(visTab, "BtnOrbit", "45. Orbit Aura", 7)
-local btnXray = createButton(visTab, "BtnXray", "46. Map X-Ray", 8)
-local btnNightVision = createButton(visTab, "BtnNightVision", "47. Night Vision", 9)
-local btnCrosshair = createButton(visTab, "BtnCrosshair", "48. Crosshair", 10)
-local btnChams = createButton(visTab, "BtnChams", "49. Player Chams", 11)
-local btnRainbowChar = createButton(visTab, "BtnRainbowChar", "50. Rainbow Body", 12)
-local btnHeadSize = createButton(visTab, "BtnHeadSize", "51. Big Head", 13)
-local btnSkeleton = createButton(visTab, "BtnSkeleton", "52. Skeleton ESP", 14)
-local btnDepthVision = createButton(visTab, "BtnDepthVision", "53. Depth Shader", 15)
-local btnOutline = createButton(visTab, "BtnOutline", "54. Outline ESP", 16)
-local btnHighlight = createButton(visTab, "BtnHighlight", "55. Target Beam", 17)
-local btnClearVisuals = createButton(visTab, "BtnClearVisuals", "56. Clear Visuals", 18)
-local btnThermal = createButton(visTab, "BtnThermal", "57. Thermal Vision", 19)
-local btnBlur = createButton(visTab, "BtnBlur", "58. Motion Blur", 20)
+	if ASH.isFlying then
+		humanoid.PlatformStand = true
+		ASH.bodyVelocity = Instance.new("BodyVelocity")
+		ASH.bodyVelocity.MaxForce = Vector3.new(1e9, 1e9, 1e9)
+		ASH.bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+		ASH.bodyVelocity.Parent = rootPart
 
--- UTILITY TAB
-local btnRejoin = createButton(utilTab, "BtnRejoin", "59. Rejoin", 1)
-local btnServerHop = createButton(utilTab, "BtnServerHop", "60. Server Hop", 2)
-local btnFPS = createButton(utilTab, "BtnFPS", "61. FPS Boost", 3)
-local btnBtools = createButton(utilTab, "BtnBtools", "62. Btools", 4)
-local btnAntiAFK = createButton(utilTab, "BtnAntiAFK", "63. Anti-AFK", 5)
-local btnCopyPos = createButton(utilTab, "BtnCopyPos", "64. Copy CFrame", 6)
-local btnItemGrab = createButton(utilTab, "BtnItemGrab", "65. Grab Items", 7)
-local btnRemoveFog = createButton(utilTab, "BtnRemoveFog", "66. Clear Fog", 8)
-local btnHideUI = createButton(utilTab, "BtnHideUI", "67. Hide CoreUI", 9)
-local btnPing = createButton(utilTab, "BtnPing", "68. Stats Display", 10)
-local btnAntiFling = createButton(utilTab, "BtnAntiFling", "69. Anti-Fling", 11)
-local btnChatLogger = createButton(utilTab, "BtnChatLogger", "70. Chat Logger", 12)
-local btnClientAntiKick = createButton(utilTab, "BtnClientAntiKick", "71. Anti-Kick", 13)
-local btnClearDecals = createButton(utilTab, "BtnClearDecals", "72. Clear Textures", 14)
-local btnMuteSounds = createButton(utilTab, "BtnMuteSounds", "73. Mute Sounds", 15)
-local btnForcefield = createButton(utilTab, "BtnForcefield", "74. Local Shield", 16)
-local btnChatSpam = createButton(utilTab, "BtnChatSpam", "75. Chat Spammer", 17)
-local btnCommandBar = createButton(utilTab, "BtnCommandBar", "76. Command Bar", 18)
-local btnSmallServer = createButton(utilTab, "BtnSmallServer", "77. Low Server", 19)
-local btnClearCons = createButton(utilTab, "BtnClearCons", "78. Clear Constraints", 20)
+		ASH.bodyGyro = Instance.new("BodyGyro")
+		ASH.bodyGyro.MaxTorque = Vector3.new(1e9, 1e9, 1e9)
+		ASH.bodyGyro.P = 20000
+		ASH.bodyGyro.CFrame = rootPart.CFrame
+		ASH.bodyGyro.Parent = rootPart
 
--- FUN TAB
-local btnParticleShield = createButton(funTab, "BtnParticleShield", "79. Particle Shield", 1)
-local btnSizeChanger = createButton(funTab, "BtnSizeChanger", "80. Scale Giant", 2)
-local btnTinyScale = createButton(funTab, "BtnTinyScale", "81. Scale Tiny", 3)
-local btnDiscoWorld = createButton(funTab, "BtnDiscoWorld", "82. Disco Lighting", 4)
-local btnSpinCam = createButton(funTab, "BtnSpinCam", "83. Spin Camera", 5)
-local btnRainbowSky = createButton(funTab, "BtnRainbowSky", "84. Rainbow Sky", 6)
-local btnConfetti = createButton(funTab, "BtnConfetti", "85. Confetti Burst", 7)
-local btnSoundSpam = createButton(funTab, "BtnSoundSpam", "86. Audio Glitch", 8)
-local btnCamShake = createButton(funTab, "BtnCamShake", "87. Cam Shake", 9)
-local btnInvertCam = createButton(funTab, "BtnInvertCam", "88. Upside Down", 10)
-local btnReverseKeys = createButton(funTab, "BtnReverseKeys", "89. Reverse Keys", 11)
-local btnFlashWorld = createButton(funTab, "BtnFlashWorld", "90. Strobe Light", 12)
+		ASH.flyConnection = ASH.RunService.RenderStepped:Connect(function()
+			if not ASH.isFlying or not character.Parent or not rootPart.Parent then
+				if ASH.flyConnection then ASH.flyConnection:Disconnect() end
+				if ASH.bodyVelocity then ASH.bodyVelocity:Destroy() end
+				if ASH.bodyGyro then ASH.bodyGyro:Destroy() end
+				if humanoid then humanoid.PlatformStand = false end
+				return
+			end
+			local speed = ASH.UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) and 100 or 50
+			local camCFrame = ASH.camera.CFrame
+			local lookVector = camCFrame.LookVector
+			local rightVector = camCFrame.RightVector
+			local moveDirection = humanoid.MoveDirection
+			local targetVelocity = Vector3.new(0, 0, 0)
 
--- WORLD TAB
-local btnRemoveBase = createButton(worldTab, "BtnRemoveBase", "91. Delete Baseplate", 1)
-local btnGlassFloor = createButton(worldTab, "BtnGlassFloor", "92. Glass Floor", 2)
-local btnVoidTP = createButton(worldTab, "BtnVoidTP", "93. Void Teleport", 3)
-local btnSpawnPlatform = createButton(worldTab, "BtnSpawnPlatform", "94. Spawn Platform", 4)
-local btnDayLock = createButton(worldTab, "BtnDayLock", "95. Lock Daylight", 5)
-local btnNightLock = createButton(worldTab, "BtnNightLock", "96. Lock Nighttime", 6)
-local btnZeroGravWorld = createButton(worldTab, "BtnZeroGravWorld", "97. Float World", 7)
-local btnClearParticles = createButton(worldTab, "BtnClearParticles", "98. Clear Emitters", 8)
-local btnUnanchorWorld = createButton(worldTab, "BtnUnanchorWorld", "99. Local Unanchor", 9)
-local btnTimeFreeze = createButton(worldTab, "BtnTimeFreeze", "100. Pause Time", 10)
+			if moveDirection.Magnitude > 0 then
+				targetVelocity = (lookVector * -moveDirection.Z + rightVector * moveDirection.X) * speed
+			end
 
--- Core Functionality Bindings
-local isFlying = false
-local bodyVelocity, bodyGyro, flyConnection
+			if ASH.UserInputService:IsKeyDown(Enum.KeyCode.W) then targetVelocity = targetVelocity + (lookVector * speed) end
+			if ASH.UserInputService:IsKeyDown(Enum.KeyCode.S) then targetVelocity = targetVelocity - (lookVector * speed) end
+			if ASH.UserInputService:IsKeyDown(Enum.KeyCode.A) then targetVelocity = targetVelocity - (rightVector * speed) end
+			if ASH.UserInputService:IsKeyDown(Enum.KeyCode.D) then targetVelocity = targetVelocity + (rightVector * speed) end
+			if ASH.UserInputService:IsKeyDown(Enum.KeyCode.Space) then targetVelocity = targetVelocity + Vector3.new(0, speed, 0) end
+			if ASH.UserInputService:IsKeyDown(Enum.KeyCode.Q) then targetVelocity = targetVelocity - Vector3.new(0, speed, 0) end
 
-btnFly.MouseButton1Click:Connect(function()
-	pcall(function()
-		isFlying = not isFlying
-		local character = player.Character
-		if not character then return end
-		local rootPart = character:FindFirstChild("HumanoidRootPart")
-		local humanoid = character:FindFirstChildOfClass("Humanoid")
-		if not rootPart or not humanoid then return end
-
-		if flyConnection then flyConnection:Disconnect() end
-		if bodyVelocity then bodyVelocity:Destroy() end
-		if bodyGyro then bodyGyro:Destroy() end
-
-		if isFlying then
-			humanoid.PlatformStand = true
-			bodyVelocity = Instance.new("BodyVelocity")
-			bodyVelocity.MaxForce = Vector3.new(1e9, 1e9, 1e9)
-			bodyVelocity.Velocity = Vector3.new(0, 0, 0)
-			bodyVelocity.Parent = rootPart
-
-			bodyGyro = Instance.new("BodyGyro")
-			bodyGyro.MaxTorque = Vector3.new(1e9, 1e9, 1e9)
-			bodyGyro.P = 20000
-			bodyGyro.CFrame = rootPart.CFrame
-			bodyGyro.Parent = rootPart
-
-			flyConnection = RunService.RenderStepped:Connect(function()
-				if not isFlying or not character.Parent or not rootPart.Parent then
-					if flyConnection then flyConnection:Disconnect() end
-					if bodyVelocity then bodyVelocity:Destroy() end
-					if bodyGyro then bodyGyro:Destroy() end
-					if humanoid then humanoid.PlatformStand = false end
-					return
-				end
-				local speed = UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) and 100 or 50
-				local camCFrame = camera.CFrame
-				local lookVector = camCFrame.LookVector
-				local rightVector = camCFrame.RightVector
-				local moveDirection = humanoid.MoveDirection
-				local targetVelocity = Vector3.new(0, 0, 0)
-
-				if moveDirection.Magnitude > 0 then
-					targetVelocity = (lookVector * -moveDirection.Z + rightVector * moveDirection.X) * speed
-				end
-
-				if UserInputService:IsKeyDown(Enum.KeyCode.W) then targetVelocity = targetVelocity + (lookVector * speed) end
-				if UserInputService:IsKeyDown(Enum.KeyCode.S) then targetVelocity = targetVelocity - (lookVector * speed) end
-				if UserInputService:IsKeyDown(Enum.KeyCode.A) then targetVelocity = targetVelocity - (rightVector * speed) end
-				if UserInputService:IsKeyDown(Enum.KeyCode.D) then targetVelocity = targetVelocity + (rightVector * speed) end
-				if UserInputService:IsKeyDown(Enum.KeyCode.Space) then targetVelocity = targetVelocity + Vector3.new(0, speed, 0) end
-				if UserInputService:IsKeyDown(Enum.KeyCode.Q) then targetVelocity = targetVelocity - Vector3.new(0, speed, 0) end
-
-				bodyVelocity.Velocity = targetVelocity
-				bodyGyro.CFrame = camCFrame
-			end)
-		else
-			humanoid.PlatformStand = false
-		end
-	end)
+			ASH.bodyVelocity.Velocity = targetVelocity
+			ASH.bodyGyro.CFrame = camCFrame
+		end)
+	else
+		humanoid.PlatformStand = false
+	end
 end)
 
-btnSpeed.MouseButton1Click:Connect(function() pcall(function() player.Character.Humanoid.WalkSpeed = 60 end) end)
-btnJump.MouseButton1Click:Connect(function() pcall(function() player.Character.Humanoid.JumpPower = 120 end) end)
+ASH.createButton(ASH.mainTab, "BtnGoto", "2. Go To", 2, function()
+	local oldSelector = ASH.screenGui:FindFirstChild("PlayerSelectorFrame")
+	if oldSelector then oldSelector:Destroy() return end
 
-local noclip = false
-btnNoclip.MouseButton1Click:Connect(function() noclip = not noclip end)
-RunService.Stepped:Connect(function()
+	local selectorFrame = Instance.new("Frame")
+	selectorFrame.Name = "PlayerSelectorFrame"
+	selectorFrame.Size = UDim2.new(0, 260, 0, 240)
+	selectorFrame.Position = UDim2.new(0.5, -130, 0.2, 0)
+	selectorFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+	selectorFrame.ZIndex = 500
+	selectorFrame.Parent = ASH.screenGui
+	Instance.new("UICorner", selectorFrame).CornerRadius = UDim.new(0, 10)
+
+	local closeSelector = Instance.new("TextButton")
+	closeSelector.Size = UDim2.new(0, 24, 0, 24)
+	closeSelector.Position = UDim2.new(1, -28, 0, 5)
+	closeSelector.BackgroundColor3 = Color3.fromRGB(180, 40, 40)
+	closeSelector.Text = "X"
+	closeSelector.TextColor3 = Color3.fromRGB(255, 255, 255)
+	closeSelector.TextSize, closeSelector.Font = 12, Enum.Font.GothamBold
+	closeSelector.ZIndex = 502
+	closeSelector.Parent = selectorFrame
+	Instance.new("UICorner", closeSelector).CornerRadius = UDim.new(0, 6)
+	closeSelector.MouseButton1Click:Connect(function() selectorFrame:Destroy() end)
+
+	local playerScroll = Instance.new("ScrollingFrame")
+	playerScroll.Size = UDim2.new(1, -12, 1, -45)
+	playerScroll.Position = UDim2.new(0, 6, 0, 40)
+	playerScroll.BackgroundTransparency = 1
+	playerScroll.ScrollBarThickness = 5
+	playerScroll.ZIndex = 501
+	playerScroll.Parent = selectorFrame
+
+	local listLayout = Instance.new("UIListLayout")
+	listLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	listLayout.Padding = UDim.new(0, 6)
+	listLayout.Parent = playerScroll
+
+	for _, target in ipairs(ASH.Players:GetPlayers()) do
+		if target ~= ASH.player then
+			local pBtn = Instance.new("TextButton")
+			pBtn.Size = UDim2.new(1, 0, 0, 36)
+			pBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+			pBtn.Text = "  " .. target.DisplayName
+			pBtn.TextColor3 = Color3.fromRGB(240, 240, 240)
+			pBtn.TextSize = 12
+			pBtn.Font = Enum.Font.Gotham
+			pBtn.TextXAlignment = Enum.TextXAlignment.Left
+			pBtn.ZIndex = 502
+			pBtn.Parent = playerScroll
+			Instance.new("UICorner", pBtn).CornerRadius = UDim.new(0, 6)
+
+			pBtn.MouseButton1Click:Connect(function()
+				selectorFrame:Destroy()
+				local myChar = ASH.player.Character
+				if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
+				if target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+					myChar.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+				end
+			end)
+		end
+	end
+end)
+
+ASH.createButton(ASH.mainTab, "BtnSpeed", "3. Speed (2x)", 3, function()
+	local hum = ASH.player.Character and ASH.player.Character:FindFirstChildOfClass("Humanoid")
+	if hum then hum.WalkSpeed = hum.WalkSpeed == 16 and 60 or 16 end
+end)
+
+ASH.createButton(ASH.mainTab, "BtnJump", "4. High Jump", 4, function()
+	local hum = ASH.player.Character and ASH.player.Character:FindFirstChildOfClass("Humanoid")
+	if hum then hum.JumpPower = hum.JumpPower == 50 and 120 or 50 end
+end)
+
+ASH.noclip = false
+ASH.createButton(ASH.mainTab, "BtnNoclip", "5. Noclip", 5, function() ASH.noclip = not ASH.noclip end)
+ASH.RunService.Stepped:Connect(function()
 	pcall(function()
-		if noclip and player.Character then
-			for _, part in ipairs(player.Character:GetDescendants()) do
+		if ASH.noclip and ASH.player.Character then
+			for _, part in ipairs(ASH.player.Character:GetDescendants()) do
 				if part:IsA("BasePart") then part.CanCollide = false end
 			end
 		end
 	end)
 end)
 
-btnRejoin.MouseButton1Click:Connect(function() pcall(function() TeleportService:Teleport(game.PlaceId, player) end) end)
+ASH.createButton(ASH.mainTab, "BtnFreeze", "6. Freeze Self", 6, function()
+	local char = ASH.player.Character
+	if char and char:FindFirstChild("HumanoidRootPart") then
+		char.HumanoidRootPart.Anchored = not char.HumanoidRootPart.Anchored
+	end
+end)
 
-mainFrame.Visible = true
-print("ASH..-AYE Admin Panel v4 Restored & Active By Aye!")
+ASH.createButton(ASH.mainTab, "BtnKill", "7. Reset Self", 7, function()
+	if ASH.player.Character and ASH.player.Character:FindFirstChildOfClass("Humanoid") then
+		ASH.player.Character:FindFirstChildOfClass("Humanoid").Health = 0
+	end
+end)
+-- ASH..-AYE v4 (Block 6: Movement Tab Features)
+local ASH = shared.ASH
+
+ASH.infJumpActive = false
+ASH.createButton(ASH.moveTab, "BtnInfJump", "8. Inf Jump", 1, function() ASH.infJumpActive = not ASH.infJumpActive end)
+ASH.UserInputService.JumpRequest:Connect(function()
+	pcall(function()
+		if ASH.infJumpActive and ASH.player.Character and ASH.player.Character:FindFirstChildOfClass("Humanoid") then
+			ASH.player.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
+		end
+	end)
+end)
+
+ASH.createButton(ASH.moveTab, "BtnClickTP", "9. Click TP", 2, function()
+	local backpack = ASH.player:WaitForChild("Backpack")
+	if backpack:FindFirstChild("Click TP") then return end
+	local tool = Instance.new("Tool")
+	tool.Name = "Click TP"
+	tool.RequiresHandle = false
+	tool.Activated:Connect(function()
+		local mouse = ASH.player:GetMouse()
+		if ASH.player.Character and ASH.player.Character:FindFirstChild("HumanoidRootPart") and mouse.Hit then
+			ASH.player.Character.HumanoidRootPart.CFrame = mouse.Hit * CFrame.new(0, 3, 0)
+		end
+	end)
+	tool.Parent = backpack
+end)
+
+ASH.isFloating, ASH.floatPart = false, nil
+ASH.createButton(ASH.moveTab, "BtnFloat", "10. Air Float", 3, function()
+	ASH.isFloating = not ASH.isFloating
+	local char = ASH.player.Character
+	if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+	if ASH.isFloating then
+		ASH.floatPart = Instance.new("Part")
+		ASH.floatPart.Size = Vector3.new(6, 1, 6)
+		ASH.floatPart.Anchored = true
+		ASH.floatPart.Transparency = 0.5
+		ASH.floatPart.Color = Color3.fromRGB(255, 65, 65)
+		ASH.floatPart.Parent = ASH.Workspace
+		ASH.RunService.RenderStepped:Connect(function()
+			if ASH.isFloating and char and char:FindFirstChild("HumanoidRootPart") and ASH.floatPart then
+				ASH.floatPart.Position = char.HumanoidRootPart.Position - Vector3.new(0, 3.5, 0)
+			elseif ASH.floatPart then ASH.floatPart:Destroy() end
+		end)
+	else
+		if ASH.floatPart then ASH.floatPart:Destroy() end
+	end
+end)
+
+ASH.createButton(ASH.moveTab, "BtnSlowMo", "11. Slow Motion", 4, function()
+	local hum = ASH.player.Character and ASH.player.Character:FindFirstChildOfClass("Humanoid")
+	if hum then hum.WalkSpeed = hum.WalkSpeed == 16 and 6 or 16 end
+end)
+
+ASH.createButton(ASH.moveTab, "BtnDash", "12. Impulse Dash", 5, function()
+	local root = ASH.player.Character and ASH.player.Character:FindFirstChild("HumanoidRootPart")
+	if root then root.Velocity = root.CFrame.LookVector * 150 end
+end)
+
+ASH.createButton(ASH.moveTab, "BtnHighGravity", "13. High Gravity", 6, function() ASH.Workspace.Gravity = 500 end)
+ASH.createButton(ASH.moveTab, "BtnLowGravity", "14. Zero Gravity", 7, function() ASH.Workspace.Gravity = 0 end)
+-- ASH..-AYE v4 (Block 7: Visuals & Utility Features)
+local ASH = shared.ASH
+
+ASH.isInvisible = false
+ASH.createButton(ASH.visTab, "BtnInvis", "15. Invisible", 1, function()
+	local char = ASH.player.Character
+	if not char then return end
+	ASH.isInvisible = not ASH.isInvisible
+	for _, child in ipairs(char:GetDescendants()) do
+		if child:IsA("BasePart") and child.Name ~= "HumanoidRootPart" then
+			child.Transparency = ASH.isInvisible and 1 or 0
+		elseif child:IsA("Decal") then
+			child.Transparency = ASH.isInvisible and 1 or 0
+		end
+	end
+end)
+
+ASH.isBright = false
+ASH.createButton(ASH.visTab, "BtnBright", "16. Full Bright", 2, function()
+	ASH.isBright = not ASH.isBright
+	ASH.Lighting.Brightness = ASH.isBright and 3 or 1
+	ASH.Lighting.ClockTime = ASH.isBright and 12 or 14
+	ASH.Lighting.GlobalShadows = not ASH.isBright
+	ASH.Lighting.OutdoorAmbient = ASH.isBright and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(128, 128, 128)
+end)
+
+ASH.createButton(ASH.visTab, "BtnESP", "17. Box ESP", 3, function()
+	for _, p in ipairs(ASH.Players:GetPlayers()) do
+		if p ~= ASH.player and p.Character then
+			local highlight = p.Character:FindFirstChild("ASH_ESP") or Instance.new("Highlight")
+			highlight.Name = "ASH_ESP"
+			highlight.FillColor = Color3.fromRGB(255, 50, 50)
+			highlight.Parent = p.Character
+		end
+	end
+end)
+
+ASH.createButton(ASH.utilTab, "BtnRejoin", "18. Rejoin", 1, function() ASH.TeleportService:Teleport(game.PlaceId, ASH.player) end)
+
+ASH.createButton(ASH.utilTab, "BtnServerHop", "19. Server Hop", 2, function()
+	local success, result = pcall(function()
+		return ASH.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/places/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"))
+	end)
+	if success and result and result.data then
+		for _, server in ipairs(result.data) do
+			if server.playing < server.maxPlayers and server.id ~= game.JobId then
+				ASH.TeleportService:TeleportToPlaceInstance(game.PlaceId, server.id, ASH.player)
+				break
+			end
+		end
+	end
+end)
+
+ASH.createButton(ASH.utilTab, "BtnFPS", "20. FPS Boost", 3, function()
+	for _, v in ipairs(ASH.Workspace:GetDescendants()) do
+		if v:IsA("BasePart") then v.Material = Enum.Material.SmoothPlastic
+		elseif v:IsA("Texture") or v:IsA("Decal") then v:Destroy() end
+	end
+	ASH.Lighting.GlobalShadows = false
+end)
+-- ASH..-AYE v4 (Block 8: Fun Features & Startup)
+local ASH = shared.ASH
+
+ASH.createButton(ASH.funTab, "BtnParticleShield", "21. Particle Shield", 1, function()
+	local root = ASH.player.Character and ASH.player.Character:FindFirstChild("HumanoidRootPart")
+	if root then
+		local pe = Instance.new("ParticleEmitter")
+		pe.Texture = "rbxassetid://243664672"
+		pe.Rate = 50
+		pe.Parent = root
+	end
+end)
+
+ASH.createButton(ASH.worldTab, "BtnRemoveBase", "22. Delete Baseplate", 1, function()
+	local b = ASH.Workspace:FindFirstChild("Baseplate") or ASH.Workspace:FindFirstChild("BasePlate")
+	if b then b:Destroy() end
+end)
+
+ASH.createButton(ASH.worldTab, "BtnVoidTP", "23. Void Teleport", 2, function()
+	local root = ASH.player.Character and ASH.player.Character:FindFirstChild("HumanoidRootPart")
+	if root then root.CFrame = CFrame.new(0, -200, 0) end
+end)
+
+ASH.mainFrame.Visible = true
+print("==========================================")
+print("ASH..-AYE Admin Panel v4 Loaded Successfully!")
+print("Shared state active across all 8 blocks.")
+print("==========================================")
