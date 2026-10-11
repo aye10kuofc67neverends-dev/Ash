@@ -1,4 +1,4 @@
--- ASH..-AYE Admin Panel v5 (Block 1: Services)
+-- ASH..-AYE Admin Panel v5 (Unified Single-Block Script)
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
@@ -14,7 +14,7 @@ local playerGui = player:WaitForChild("PlayerGui", 10)
 
 local existingGui = playerGui:FindFirstChild("ASH_AYE_AdminPanel")
 if existingGui then existingGui:Destroy() end
--- ASH..-AYE Admin Panel v5 (Block 2: GUI Container)
+
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "ASH_AYE_AdminPanel"
 screenGui.ResetOnSpawn = false
@@ -32,9 +32,8 @@ mainFrame.Active = true
 mainFrame.Draggable = true
 mainFrame.ZIndex = 100
 mainFrame.Parent = screenGui
-
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 10)
--- ASH..-AYE Admin Panel v5 (Block 3: Header & Search)
+
 local topBar = Instance.new("Frame")
 topBar.Name = "TopBar"
 topBar.Size = UDim2.new(1, 0, 0, 36)
@@ -42,7 +41,6 @@ topBar.BackgroundColor3 = Color3.fromRGB(12, 12, 16)
 topBar.BorderSizePixel = 0
 topBar.ZIndex = 101
 topBar.Parent = mainFrame
-
 Instance.new("UICorner", topBar).CornerRadius = UDim.new(0, 10)
 
 local titleLabel = Instance.new("TextLabel")
@@ -70,7 +68,6 @@ searchBox.TextSize = 11
 searchBox.Font = Enum.Font.Gotham
 searchBox.ZIndex = 102
 searchBox.Parent = topBar
-
 Instance.new("UICorner", searchBox).CornerRadius = UDim.new(0, 6)
 
 local minimizeBtn = Instance.new("TextButton")
@@ -84,7 +81,6 @@ minimizeBtn.TextSize = 16
 minimizeBtn.Font = Enum.Font.GothamBold
 minimizeBtn.ZIndex = 102
 minimizeBtn.Parent = topBar
-
 Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(0, 6)
 
 local minimizedTab = Instance.new("TextButton")
@@ -99,7 +95,6 @@ minimizedTab.Font = Enum.Font.GothamBold
 minimizedTab.Visible = false
 minimizedTab.ZIndex = 1000
 minimizedTab.Parent = screenGui
-
 Instance.new("UICorner", minimizedTab).CornerRadius = UDim.new(0, 8)
 
 minimizeBtn.MouseButton1Click:Connect(function()
@@ -111,7 +106,7 @@ minimizedTab.MouseButton1Click:Connect(function()
 	mainFrame.Visible = true
 	minimizedTab.Visible = false
 end)
--- ASH..-AYE Admin Panel v5 (Block 4: Tabs & Canvas Sizing)
+
 local tabBar = Instance.new("Frame")
 tabBar.Name = "TabBar"
 tabBar.Size = UDim2.new(1, -16, 0, 26)
@@ -221,7 +216,8 @@ local function createButton(parentContainer, name, labelText, order)
 	table.insert(registeredButtons, {Button = btn, Label = labelText})
 	return btn
 end
--- ASH..-AYE Admin Panel v5 (Block 5: Main Declarations)
+
+-- Create Buttons
 local btnFly = createButton(mainTab, "BtnFly", "1. Fly", 1)
 local btnGoto = createButton(mainTab, "BtnGoto", "2. Go To", 2)
 local btnSpeed = createButton(mainTab, "BtnSpeed", "3. Speed (2x)", 3)
@@ -232,32 +228,12 @@ local btnFreeze = createButton(mainTab, "BtnFreeze", "7. Freeze Self", 7)
 local btnGodMode = createButton(mainTab, "BtnGodMode", "8. Anti-Damage", 8)
 local btnAnchor = createButton(mainTab, "BtnAnchor", "9. Anchor Root", 9)
 local btnKill = createButton(mainTab, "BtnKill", "10. Reset Self", 10)
-local btnBring = createButton(mainTab, "BtnBring", "11. Bring Tool", 11)
 local btnUnfly = createButton(mainTab, "BtnUnfly", "12. Stop Fly", 12)
 local btnSit = createButton(mainTab, "BtnSit", "13. Force Sit", 13)
 local btnLay = createButton(mainTab, "BtnLay", "14. Lay Down", 14)
 local btnStand = createButton(mainTab, "BtnStand", "15. Stand Up", 15)
-local btnSpin = createButton(mainTab, "BtnSpin", "16. Torso Spin", 16)
-local btnUnspin = createButton(mainTab, "BtnUnspin", "17. Stop Spin", 17)
 local btnRespawn = createButton(mainTab, "BtnRespawn", "18. Fast Respawn", 18)
-local btnHeadlessVis = createButton(mainTab, "BtnHeadlessVis", "19. Local Headless", 19)
-local btnInvisTorso = createButton(mainTab, "BtnInvisTorso", "20. Invis Torso", 20)
-local btnWalkLock = createButton(mainTab, "BtnWalkLock", "21. Speed Lock", 21)
-local btnJumpLock = createButton(mainTab, "BtnJumpLock", "22. Jump Lock", 22)
-local btnAutoHeal = createButton(mainTab, "BtnAutoHeal", "23. Auto Heal", 23)
-local btnAntiKnock = createButton(mainTab, "BtnAntiKnock", "24. Anti Knockback", 24)
-local btnPhysStab = createButton(mainTab, "BtnPhysStab", "25. Physics Stability", 25)
-local btnAntiRagdoll = createButton(mainTab, "BtnAntiRagdoll", "26. Anti Ragdoll", 26)
-local btnAntiStun = createButton(mainTab, "BtnAntiStun", "27. Anti Stun", 27)
-local btnForceShift = createButton(mainTab, "BtnForceShift", "28. Force Shiftlock", 28)
-local btnResetCam = createButton(mainTab, "BtnResetCam", "29. Reset Camera", 29)
-local btnLowHpReset = createButton(mainTab, "BtnLowHpReset", "30. Auto Low-HP TP", 30)
-local btnCustomGrav = createButton(mainTab, "BtnCustomGrav", "31. Grav Switch", 31)
-local btnMassless = createButton(mainTab, "BtnMassless", "32. Massless Body", 32)
-local btnRandomTP = createButton(mainTab, "BtnRandomTP", "33. Random TP", 33)
-local btnKillCam = createButton(mainTab, "BtnKillCam", "34. Target Cam", 34)
-local btnGodLoop = createButton(mainTab, "BtnGodLoop", "35. Godmode Loop", 35)
--- ASH..-AYE Admin Panel v5 (Block 6: Movement Declarations)
+
 local btnInfJump = createButton(moveTab, "BtnInfJump", "36. Inf Jump", 1)
 local btnClickTP = createButton(moveTab, "BtnClickTP", "37. Click TP", 2)
 local btnFloat = createButton(moveTab, "BtnFloat", "38. Air Float", 3)
@@ -267,126 +243,50 @@ local btnWallRun = createButton(moveTab, "BtnWallRun", "41. Spider Wall", 6)
 local btnSlowMo = createButton(moveTab, "BtnSlowMo", "42. Slow Motion", 7)
 local btnFastFall = createButton(moveTab, "BtnFastFall", "43. Fast Fall", 8)
 local btnDash = createButton(moveTab, "BtnDash", "44. Impulse Dash", 9)
-local btnAutoForward = createButton(moveTab, "BtnAutoForward", "45. Auto Walk", 10)
 local btnHighGravity = createButton(moveTab, "BtnHighGravity", "46. High Gravity", 11)
 local btnLowGravity = createButton(moveTab, "BtnLowGravity", "47. Zero Gravity", 12)
-local btnBunnyHop = createButton(moveTab, "BtnBunnyHop", "48. Bunny Hop", 13)
 local btnJetpack = createButton(moveTab, "BtnJetpack", "49. Jetpack", 14)
-local btnDismount = createButton(moveTab, "BtnDismount", "50. Seat Eject", 15)
-local btnAirHop = createButton(moveTab, "BtnAirHop", "51. Air Hop", 16)
-local btnSmoothWalk = createButton(moveTab, "BtnSmoothWalk", "52. Smooth Walk", 17)
-local btnFastWalk = createButton(moveTab, "BtnFastWalk", "53. Super Sprint", 18)
-local btnAutoJump = createButton(moveTab, "BtnAutoJump", "54. Auto Jump", 19)
-local btnDodge = createButton(moveTab, "BtnDodge", "55. Side Dodge", 20)
-local btnBackDash = createButton(moveTab, "BtnBackDash", "56. Back Dash", 21)
-local btnUpThrust = createButton(moveTab, "BtnUpThrust", "57. Up Thrust", 22)
-local btnSlideMode = createButton(moveTab, "BtnSlideMode", "58. Slide Mode", 23)
-local btnNoFriction = createButton(moveTab, "BtnNoFriction", "59. No Friction", 24)
-local btnSurfAnchor = createButton(moveTab, "BtnSurfAnchor", "60. Surf Anchor", 25)
-local btnBaseTP = createButton(moveTab, "BtnBaseTP", "61. Baseplate TP", 26)
-local btnSkyTP = createButton(moveTab, "BtnSkyTP", "62. Sky TP", 27)
-local btnNearPartTP = createButton(moveTab, "BtnNearPartTP", "63. Nearest Part TP", 28)
 local btnSpeedx5 = createButton(moveTab, "BtnSpeedx5", "64. Speed x5", 29)
 local btnSpeedx10 = createButton(moveTab, "BtnSpeedx10", "65. Speed x10", 30)
 local btnSuperJump = createButton(moveTab, "BtnSuperJump", "66. Mega Jump", 31)
-local btnGravFlip = createButton(moveTab, "BtnGravFlip", "67. Gravity Flip", 32)
-local btnRevSpeed = createButton(moveTab, "BtnRevSpeed", "68. Reverse Speed", 33)
-local btnMoveLock = createButton(moveTab, "BtnMoveLock", "69. Move Lock", 34)
-local btnWalkVec = createButton(moveTab, "BtnWalkVec", "70. Vector Lock", 35)
-local btnFwd10 = createButton(moveTab, "BtnFwd10", "71. Forward 10s", 36)
-local btnBack10 = createButton(moveTab, "BtnBack10", "72. Back 10s", 37)
-local btnUp20 = createButton(moveTab, "BtnUp20", "73. Up 20s", 38)
-local btnDown20 = createButton(moveTab, "BtnDown20", "74. Down 20s", 39)
-local btnFloatAdj = createButton(moveTab, "BtnFloatAdj", "75. Float Height+", 40)
--- ASH..-AYE Admin Panel v5 (Block 7: Visuals Declarations)
+
 local btnTornado = createButton(visTab, "BtnTornado", "76. Tornado", 1)
 local btnInvis = createButton(visTab, "BtnInvis", "77. Invisible", 2)
 local btnBright = createButton(visTab, "BtnBright", "78. Full Bright", 3)
 local btnAshTag = createButton(visTab, "BtnAshTag", "79. ASH Tag", 4)
 local btnESP = createButton(visTab, "BtnESP", "80. Box ESP", 5)
-local btnTracers = createButton(visTab, "BtnTracers", "81. Tracers", 6)
-local btnOrbit = createButton(visTab, "BtnOrbit", "82. Orbit Aura", 7)
 local btnXray = createButton(visTab, "BtnXray", "83. Map X-Ray", 8)
 local btnNightVision = createButton(visTab, "BtnNightVision", "84. Night Vision", 9)
-local btnCrosshair = createButton(visTab, "BtnCrosshair", "85. Crosshair", 10)
 local btnChams = createButton(visTab, "BtnChams", "86. Player Chams", 11)
-local btnRainbowChar = createButton(visTab, "BtnRainbowChar", "87. Rainbow Body", 12)
-local btnHeadSize = createButton(visTab, "BtnHeadSize", "88. Big Head", 13)
-local btnSkeleton = createButton(visTab, "BtnSkeleton", "89. Skeleton ESP", 14)
-local btnDepthVision = createButton(visTab, "BtnDepthVision", "90. Depth Shader", 15)
-local btnOutline = createButton(visTab, "BtnOutline", "91. Outline ESP", 16)
-local btnHighlight = createButton(visTab, "BtnHighlight", "92. Target Beam", 17)
 local btnClearVisuals = createButton(visTab, "BtnClearVisuals", "93. Clear Visuals", 18)
 local btnThermal = createButton(visTab, "BtnThermal", "94. Thermal Vision", 19)
 local btnBlur = createButton(visTab, "BtnBlur", "95. Motion Blur", 20)
-local btnInvertColor = createButton(visTab, "BtnInvertColor", "96. Color Invert", 21)
-local btnGrayScale = createButton(visTab, "BtnGrayScale", "97. Grayscale View", 22)
-local btnNeonHighlight = createButton(visTab, "BtnNeonHighlight", "98. Neon Body", 23)
-local btnDistanceTags = createButton(visTab, "BtnDistanceTags", "99. Distance Tags", 24)
-local btnHealthESP = createButton(visTab, "BtnHealthESP", "100. Health Bar ESP", 25)
-local btnNameTags = createButton(visTab, "BtnNameTags", "101. Name Tags ESP", 26)
-local btnItemESP = createButton(visTab, "BtnItemESP", "102. Dropped Item ESP", 27)
-local btnVehESP = createButton(visTab, "BtnVehESP", "103. Vehicle ESP", 28)
-local btnTargetLockVis = createButton(visTab, "BtnTargetLockVis", "104. Lock Target Visual", 29)
 local btnFov120 = createButton(visTab, "BtnFov120", "105. FOV 120", 30)
 local btnFov30 = createButton(visTab, "BtnFov30", "106. Zoom Cam (FOV 30)", 31)
-local btnCustomTrail = createButton(visTab, "BtnCustomTrail", "107. Motion Trail", 32)
-local btnParticleAura = createButton(visTab, "BtnParticleAura", "108. Particle Aura", 33)
-local btnDiscoHead = createButton(visTab, "BtnDiscoHead", "109. Disco Head", 34)
-local btnNoShadows = createButton(visTab, "BtnNoShadows", "110. Strip Shadows", 35)
-local btnGlassVision = createButton(visTab, "BtnGlassVision", "111. Glass Shader", 36)
-local btnWireframe = createButton(visTab, "BtnWireframe", "112. Wireframe View", 37)
-local btnFogColor = createButton(visTab, "BtnFogColor", "113. Red Fog", 38)
-local btnFullGlow = createButton(visTab, "BtnFullGlow", "114. Avatar Glow", 39)
-local btnCinematicCam = createButton(visTab, "BtnCinematicCam", "115. Smooth Cam", 40)
--- ASH..-AYE Admin Panel v5 (Block 8: Utility Declarations)
+
 local btnRejoin = createButton(utilTab, "BtnRejoin", "116. Rejoin", 1)
 local btnServerHop = createButton(utilTab, "BtnServerHop", "117. Server Hop", 2)
 local btnFPS = createButton(utilTab, "BtnFPS", "118. FPS Boost", 3)
 local btnBtools = createButton(utilTab, "BtnBtools", "119. Btools", 4)
 local btnAntiAFK = createButton(utilTab, "BtnAntiAFK", "120. Anti-AFK", 5)
 local btnCopyPos = createButton(utilTab, "BtnCopyPos", "121. Copy CFrame", 6)
-local btnItemGrab = createButton(utilTab, "BtnItemGrab", "122. Grab Items", 7)
 local btnRemoveFog = createButton(utilTab, "BtnRemoveFog", "123. Clear Fog", 8)
 local btnHideUI = createButton(utilTab, "BtnHideUI", "124. Hide CoreUI", 9)
 local btnPing = createButton(utilTab, "BtnPing", "125. Stats Display", 10)
-local btnAntiFling = createButton(utilTab, "BtnAntiFling", "126. Anti-Fling", 11)
-local btnChatLogger = createButton(utilTab, "BtnChatLogger", "127. Chat Logger", 12)
 local btnClientAntiKick = createButton(utilTab, "BtnClientAntiKick", "128. Anti-Kick", 13)
-local btnClearDecals = createButton(utilTab, "BtnClearDecals", "129. Clear Textures", 14)
 local btnMuteSounds = createButton(utilTab, "BtnMuteSounds", "130. Mute Sounds", 15)
 local btnForcefield = createButton(utilTab, "BtnForcefield", "131. Local Shield", 16)
-local btnChatSpam = createButton(utilTab, "BtnChatSpam", "132. Chat Spammer", 17)
 local btnCommandBar = createButton(utilTab, "BtnCommandBar", "133. Command Bar", 18)
-local btnSmallServer = createButton(utilTab, "BtnSmallServer", "134. Low Server", 19)
-local btnClearCons = createButton(utilTab, "BtnClearCons", "135. Clear Constraints", 20)
-local btnAntiBlind = createButton(utilTab, "BtnAntiBlind", "136. Anti-Blind", 21)
-local btnAntiBlur = createButton(utilTab, "BtnAntiBlur", "137. Anti-Blur", 22)
-local btnClearParticles = createButton(utilTab, "BtnClearParticles", "138. Clear Emitters", 23)
-local btnPingTrack = createButton(utilTab, "BtnPingTrack", "139. Ping Tracker", 24)
-local btnFpsUnlock = createButton(utilTab, "BtnFpsUnlock", "140. FPS Uncap", 25)
-local btnPerfMax = createButton(utilTab, "BtnPerfMax", "141. Max Performance", 26)
-local btnServerTime = createButton(utilTab, "BtnServerTime", "142. Server Time", 27)
 local btnPlaceId = createButton(utilTab, "BtnPlaceId", "143. Copy Place ID", 28)
 local btnJobId = createButton(utilTab, "BtnJobId", "144. Copy Job ID", 29)
-local btnClearNil = createButton(utilTab, "BtnClearNil", "145. Clear Nil Inst", 30)
 local btnMemClean = createButton(utilTab, "BtnMemClean", "146. Memory Cleaner", 31)
-local btnAutoLag = createButton(utilTab, "BtnAutoLag", "147. Auto Anti-Lag", 32)
-local btnStopAnims = createButton(utilTab, "BtnStopAnims", "148. Stop Local Anims", 33)
-local btnClearGuim = createButton(utilTab, "BtnClearGuim", "149. Clear Guis", 34)
-local btnResetLighting = createButton(utilTab, "BtnResetLighting", "150. Reset Lighting", 35)
--- ASH..-AYE Admin Panel v5 (Block 9: Fun Declarations)
+
 local btnParticleShield = createButton(funTab, "BtnParticleShield", "151. Particle Shield", 1)
 local btnSizeChanger = createButton(funTab, "BtnSizeChanger", "152. Scale Giant", 2)
 local btnTinyScale = createButton(funTab, "BtnTinyScale", "153. Scale Tiny", 3)
 local btnDiscoWorld = createButton(funTab, "BtnDiscoWorld", "154. Disco Lighting", 4)
-local btnSpinCam = createButton(funTab, "BtnSpinCam", "155. Spin Camera", 5)
-local btnRainbowSky = createButton(funTab, "BtnRainbowSky", "156. Rainbow Sky", 6)
-local btnConfetti = createButton(funTab, "BtnConfetti", "157. Confetti Burst", 7)
-local btnSoundSpam = createButton(funTab, "BtnSoundSpam", "158. Audio Glitch", 8)
 local btnCamShake = createButton(funTab, "BtnCamShake", "159. Cam Shake", 9)
 local btnInvertCam = createButton(funTab, "BtnInvertCam", "160. Upside Down", 10)
-local btnReverseKeys = createButton(funTab, "BtnReverseKeys", "161. Reverse Keys", 11)
 local btnFlashWorld = createButton(funTab, "BtnFlashWorld", "162. Strobe Light", 12)
 local btnRemoveBase = createButton(funTab, "BtnRemoveBase", "163. Delete Baseplate", 13)
 local btnGlassFloor = createButton(funTab, "BtnGlassFloor", "164. Glass Floor", 14)
@@ -394,39 +294,8 @@ local btnVoidTP = createButton(funTab, "BtnVoidTP", "165. Void Teleport", 15)
 local btnSpawnPlatform = createButton(funTab, "BtnSpawnPlatform", "166. Spawn Platform", 16)
 local btnDayLock = createButton(funTab, "BtnDayLock", "167. Lock Daylight", 17)
 local btnNightLock = createButton(funTab, "BtnNightLock", "168. Lock Nighttime", 18)
-local btnZeroGravWorld = createButton(funTab, "BtnZeroGravWorld", "169. Float World", 19)
-local btnUnanchorWorld = createButton(funTab, "BtnUnanchorWorld", "170. Local Unanchor", 20)
-local btnTimeFreeze = createButton(funTab, "BtnTimeFreeze", "171. Pause Time", 21)
-local btnGravWave = createButton(funTab, "BtnGravWave", "172. Gravity Wave", 22)
-local btnMapShake = createButton(funTab, "BtnMapShake", "173. Map Shake", 23)
-local btnSkyCycle = createButton(funTab, "BtnSkyCycle", "174. Color Sky Cycle", 24)
-local btnExplosionVis = createButton(funTab, "BtnExplosionVis", "175. Local Explosion", 25)
-local btnFireworks = createButton(funTab, "BtnFireworks", "176. Local Fireworks", 26)
-local btnHeavyWorld = createButton(funTab, "BtnHeavyWorld", "177. Heavy World", 27)
-local btnPlatformGen = createButton(funTab, "BtnPlatformGen", "178. Platform Gen", 28)
-local btnSpeedRing = createButton(funTab, "BtnSpeedRing", "179. Speed Ring Visual", 29)
-local btnSkyFlash = createButton(funTab, "BtnSkyFlash", "180. Sky Flash", 30)
-local btnAmbRed = createButton(funTab, "BtnAmbRed", "181. Red Ambient", 31)
-local btnAmbBlue = createButton(funTab, "BtnAmbBlue", "182. Blue Ambient", 32)
-local btnAmbGreen = createButton(funTab, "BtnAmbGreen", "183. Green Ambient", 33)
-local btnAmbYellow = createButton(funTab, "BtnAmbYellow", "184. Yellow Ambient", 34)
-local btnLocalFire = createButton(funTab, "BtnLocalFire", "185. Local Fire", 35)
-local btnLocalSmoke = createButton(funTab, "BtnLocalSmoke", "186. Local Smoke", 36)
-local btnSparkles = createButton(funTab, "BtnSparkles", "187. Local Sparkles", 37)
-local btnSelectHighlight = createButton(funTab, "BtnSelectHighlight", "188. Part Highlight", 38)
-local btnCamOrbit = createButton(funTab, "BtnCamOrbit", "189. Orbit Camera", 39)
-local btnFreecam = createButton(funTab, "BtnFreecam", "190. Freecam Local", 40)
-local btnHeadx10 = createButton(funTab, "BtnHeadx10", "191. Giant Head", 41)
-local btnTorsox2 = createButton(funTab, "BtnTorsox2", "192. Big Torso", 42)
-local btnArmx2 = createButton(funTab, "BtnArmx2", "193. Long Arms", 43)
-local btnLegx2 = createButton(funTab, "BtnLegx2", "194. Long Legs", 44)
-local btnResetCharColor = createButton(funTab, "BtnResetCharColor", "195. Reset Colors", 45)
-local btnClearTools = createButton(funTab, "BtnClearTools", "196. Clear Backpack", 46)
-local btnReequip = createButton(funTab, "BtnReequip", "197. Re-equip Tools", 47)
-local btnFullResetAdmin = createButton(funTab, "BtnFullResetAdmin", "198. Full Admin Reset", 48)
-local btnPingDisplayBig = createButton(funTab, "BtnPingDisplayBig", "199. Big Stats UI", 49)
-local btnNukeVisual = createButton(funTab, "BtnNukeVisual", "200. Local Nuke Effect", 50)
--- ASH..-AYE Admin Panel v5 (Block 10: Main Logic Part 1)
+
+-- Command Logic Bindings
 local isFlying = false
 local bodyVelocity, bodyGyro, flyConnection
 
@@ -572,24 +441,9 @@ btnGoto.MouseButton1Click:Connect(function()
 		end
 	end)
 end)
--- ASH..-AYE Admin Panel v5 (Block 11: Main Logic Part 2)
-btnSpeed.MouseButton1Click:Connect(function()
-	pcall(function()
-		local char = player.Character
-		if not char or not char:FindFirstChildOfClass("Humanoid") then return end
-		local hum = char:FindFirstChildOfClass("Humanoid")
-		hum.WalkSpeed = hum.WalkSpeed == 16 and 60 or 16
-	end)
-end)
 
-btnJump.MouseButton1Click:Connect(function()
-	pcall(function()
-		local char = player.Character
-		if not char or not char:FindFirstChildOfClass("Humanoid") then return end
-		local hum = char:FindFirstChildOfClass("Humanoid")
-		hum.JumpPower = hum.JumpPower == 50 and 120 or 50
-	end)
-end)
+btnSpeed.MouseButton1Click:Connect(function() pcall(function() player.Character.Humanoid.WalkSpeed = 60 end) end)
+btnJump.MouseButton1Click:Connect(function() pcall(function() player.Character.Humanoid.JumpPower = 120 end) end)
 
 local noclip = false
 btnNoclip.MouseButton1Click:Connect(function() noclip = not noclip end)
@@ -603,745 +457,22 @@ RunService.Stepped:Connect(function()
 	end)
 end)
 
-local isFlinging = false
-btnFling.MouseButton1Click:Connect(function()
+btnRejoin.MouseButton1Click:Connect(function() pcall(function() TeleportService:Teleport(game.PlaceId, player) end) end)
+btnServerHop.MouseButton1Click:Connect(function()
 	pcall(function()
-		isFlinging = not isFlinging
-		local char = player.Character
-		if not char or not char:FindFirstChild("HumanoidRootPart") then return end
-		local root = char.HumanoidRootPart
-		local bV = root:FindFirstChild("FlingVelocity") or Instance.new("BodyAngularVelocity")
-		bV.Name = "FlingVelocity"
-		bV.MaxTorque = Vector3.new(0, math.huge, 0)
-		bV.AngularVelocity = isFlinging and Vector3.new(0, 9999, 0) or Vector3.new(0, 0, 0)
-		bV.Parent = root
-	end)
-end)
-
-local isFrozen = false
-btnFreeze.MouseButton1Click:Connect(function()
-	pcall(function()
-		isFrozen = not isFrozen
-		local char = player.Character
-		if char and char:FindFirstChild("HumanoidRootPart") then char.HumanoidRootPart.Anchored = isFrozen end
-	end)
-end)
-
-local godModeActive = false
-btnGodMode.MouseButton1Click:Connect(function()
-	pcall(function()
-		godModeActive = not godModeActive
-		if godModeActive and player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
-			local hum = player.Character:FindFirstChildOfClass("Humanoid")
-			hum.Health = hum.MaxHealth
-			hum:GetPropertyChangedSignal("Health"):Connect(function()
-				if godModeActive then hum.Health = hum.MaxHealth end
-			end)
-		end
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 12: Main Logic Part 3)
-btnAnchor.MouseButton1Click:Connect(function()
-	pcall(function()
-		local char = player.Character
-		if char and char:FindFirstChild("HumanoidRootPart") then
-			char.HumanoidRootPart.Anchored = not char.HumanoidRootPart.Anchored
-		end
-	end)
-end)
-
-btnKill.MouseButton1Click:Connect(function()
-	pcall(function()
-		if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
-			player.Character:FindFirstChildOfClass("Humanoid").Health = 0
-		end
-	end)
-end)
-
-btnUnfly.MouseButton1Click:Connect(function()
-	pcall(function()
-		isFlying = false
-		if flyConnection then flyConnection:Disconnect() end
-		if bodyVelocity then bodyVelocity:Destroy() end
-		if bodyGyro then bodyGyro:Destroy() end
-		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-		if hum then hum.PlatformStand = false end
-	end)
-end)
-
-btnSit.MouseButton1Click:Connect(function()
-	pcall(function()
-		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-		if hum then hum.Sit = true end
-	end)
-end)
-
-btnLay.MouseButton1Click:Connect(function()
-	pcall(function()
-		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-		if hum then hum:ChangeState(Enum.HumanoidStateType.Physics) end
-	end)
-end)
-
-btnStand.MouseButton1Click:Connect(function()
-	pcall(function()
-		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-		if hum then hum:ChangeState(Enum.HumanoidStateType.GettingUp) end
-	end)
-end)
-
-btnRespawn.MouseButton1Click:Connect(function()
-	pcall(function()
-		local char = player.Character
-		if char then char:ClearAllChildren() end
-		local newChar = Instance.new("Model")
-		player.Character = newChar
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 13: Movement Logic Part 1)
-local infJumpActive = false
-btnInfJump.MouseButton1Click:Connect(function() infJumpActive = not infJumpActive end)
-UserInputService.JumpRequest:Connect(function()
-	pcall(function()
-		if infJumpActive and player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
-			player.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
-		end
-	end)
-end)
-
-btnClickTP.MouseButton1Click:Connect(function()
-	pcall(function()
-		local backpack = player:WaitForChild("Backpack")
-		if backpack:FindFirstChild("Click TP") then return end
-		local tool = Instance.new("Tool")
-		tool.Name = "Click TP"
-		tool.RequiresHandle = false
-		tool.Activated:Connect(function()
-			local mouse = player:GetMouse()
-			if player.Character and player.Character:FindFirstChild("HumanoidRootPart") and mouse.Hit then
-				player.Character.HumanoidRootPart.CFrame = mouse.Hit * CFrame.new(0, 3, 0)
-			end
+		local success, result = pcall(function()
+			return HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/places/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"))
 		end)
-		tool.Parent = backpack
-	end)
-end)
-
-local isFloating, floatPart = false, nil
-btnFloat.MouseButton1Click:Connect(function()
-	pcall(function()
-		isFloating = not isFloating
-		local char = player.Character
-		if not char or not char:FindFirstChild("HumanoidRootPart") then return end
-		if isFloating then
-			floatPart = Instance.new("Part")
-			floatPart.Size = Vector3.new(6, 1, 6)
-			floatPart.Anchored = true
-			floatPart.Transparency = 0.5
-			floatPart.Color = Color3.fromRGB(255, 65, 65)
-			floatPart.Parent = Workspace
-			RunService.RenderStepped:Connect(function()
-				if isFloating and char and char:FindFirstChild("HumanoidRootPart") and floatPart then
-					floatPart.Position = char.HumanoidRootPart.Position - Vector3.new(0, 3.5, 0)
-				elseif floatPart then floatPart:Destroy() end
-			end)
-		else
-			if floatPart then floatPart:Destroy() end
-		end
-	end)
-end)
-
-local airwalkActive, airwalkPart = false, nil
-btnAirwalk.MouseButton1Click:Connect(function()
-	airwalkActive = not airwalkActive
-	if not airwalkActive and airwalkPart then airwalkPart:Destroy() end
-end)
-RunService.RenderStepped:Connect(function()
-	pcall(function()
-		if airwalkActive and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-			if not airwalkPart or not airwalkPart.Parent then
-				airwalkPart = Instance.new("Part")
-				airwalkPart.Size = Vector3.new(4, 0.5, 4)
-				airwalkPart.Anchored = true
-				airwalkPart.Transparency = 1
-				airwalkPart.Parent = Workspace
-			end
-			airwalkPart.Position = player.Character.HumanoidRootPart.Position - Vector3.new(0, 3.2, 0)
-		end
-	end)
-end)
-
-local swimming = false
-btnSwim.MouseButton1Click:Connect(function()
-	pcall(function()
-		swimming = not swimming
-		local char = player.Character
-		if not char or not char:FindFirstChildOfClass("Humanoid") then return end
-		local hum = char:FindFirstChildOfClass("Humanoid")
-		hum:SetStateEnabled(Enum.HumanoidStateType.GettingUp, not swimming)
-		hum:ChangeState(swimming and Enum.HumanoidStateType.Swimming or Enum.HumanoidStateType.GettingUp)
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 14: Movement Logic Part 2)
-btnSlowMo.MouseButton1Click:Connect(function()
-	pcall(function()
-		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-		if hum then hum.WalkSpeed = hum.WalkSpeed == 16 and 6 or 16 end
-	end)
-end)
-
-btnFastFall.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then root.Velocity = Vector3.new(root.Velocity.X, -120, root.Velocity.Z) end
-	end)
-end)
-
-btnDash.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then root.Velocity = root.CFrame.LookVector * 150 end
-	end)
-end)
-
-btnHighGravity.MouseButton1Click:Connect(function() Workspace.Gravity = 500 end)
-btnLowGravity.MouseButton1Click:Connect(function() Workspace.Gravity = 0 end)
-
-local jetpackActive = false
-btnJetpack.MouseButton1Click:Connect(function()
-	pcall(function()
-		jetpackActive = not jetpackActive
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then
-			local force = root:FindFirstChild("JetpackForce") or Instance.new("BodyVelocity")
-			force.Name = "JetpackForce"
-			force.MaxForce = Vector3.new(0, math.huge, 0)
-			force.Velocity = jetpackActive and Vector3.new(0, 50, 0) or Vector3.new(0, 0, 0)
-			force.Parent = root
-		end
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 15: Movement Logic Part 3)
-btnSpeedx5.MouseButton1Click:Connect(function()
-	pcall(function()
-		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-		if hum then hum.WalkSpeed = 80 end
-	end)
-end)
-
-btnSpeedx10.MouseButton1Click:Connect(function()
-	pcall(function()
-		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-		if hum then hum.WalkSpeed = 160 end
-	end)
-end)
-
-btnSuperJump.MouseButton1Click:Connect(function()
-	pcall(function()
-		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-		if hum then hum.JumpPower = 200 end
-	end)
-end)
-
-btnFwd10.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then root.CFrame = root.CFrame * CFrame.new(0, 0, -10) end
-	end)
-end)
-
-btnBack10.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then root.CFrame = root.CFrame * CFrame.new(0, 0, 10) end
-	end)
-end)
-
-btnUp20.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then root.CFrame = root.CFrame * CFrame.new(0, 20, 0) end
-	end)
-end)
-
-btnDown20.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then root.CFrame = root.CFrame * CFrame.new(0, -20, 0) end
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 16: Visuals Logic Part 1)
-btnTornado.MouseButton1Click:Connect(function()
-	pcall(function()
-		local char = player.Character
-		if not char or not char:FindFirstChild("HumanoidRootPart") then return end
-		local root = char.HumanoidRootPart
-		local oldBase = Workspace:FindFirstChild("LocalTornadoBase")
-		if oldBase then oldBase:Destroy() end
-		local oldFolder = Workspace:FindFirstChild("VisualDebris")
-		if oldFolder then oldFolder:Destroy() end
-
-		local base = Instance.new("Part")
-		base.Name = "LocalTornadoBase"
-		base.Position = root.Position + (root.CFrame.LookVector * 20)
-		base.Anchored = true
-		base.Transparency = 1
-		base.Parent = Workspace
-
-		local debrisFolder = Instance.new("Folder")
-		debrisFolder.Name = "VisualDebris"
-		debrisFolder.Parent = Workspace
-
-		local parts = {}
-		for i = 1, 25 do
-			local p = Instance.new("Part")
-			p.Size = Vector3.new(math.random(1,3), math.random(1,3), math.random(1,3))
-			p.Color = Color3.fromRGB(120, 120, 120)
-			p.Anchored = true
-			p.CanCollide = false
-			p.Parent = debrisFolder
-			table.insert(parts, {Part = p, Height = (i/25)*60, Angle = (math.pi*2/25)*i, Speed = math.random(3,6)})
-		end
-
-		RunService.Heartbeat:Connect(function(dt)
-			if not base.Parent then return end
-			for _, data in ipairs(parts) do
-				data.Angle = data.Angle + (data.Speed * dt)
-				local rad = 5 + (30 - 5) * (data.Height / 60)
-				data.Part.Position = base.Position + Vector3.new(math.cos(data.Angle)*rad, data.Height, math.sin(data.Angle)*rad)
-			end
-		end)
-	end)
-end)
-
-local isInvisible = false
-btnInvis.MouseButton1Click:Connect(function()
-	pcall(function()
-		local char = player.Character
-		if not char then return end
-		isInvisible = not isInvisible
-		for _, child in ipairs(char:GetDescendants()) do
-			if child:IsA("BasePart") and child.Name ~= "HumanoidRootPart" then
-				child.Transparency = isInvisible and 1 or 0
-			elseif child:IsA("Decal") then
-				child.Transparency = isInvisible and 1 or 0
-			end
-		end
-	end)
-end)
-
-local isBright = false
-btnBright.MouseButton1Click:Connect(function()
-	pcall(function()
-		isBright = not isBright
-		Lighting.Brightness = isBright and 3 or 1
-		Lighting.ClockTime = isBright and 12 or 14
-		Lighting.GlobalShadows = not isBright
-		Lighting.OutdoorAmbient = isBright and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(128, 128, 128)
-	end)
-end)
-
-local ashTagActive = false
-btnAshTag.MouseButton1Click:Connect(function()
-	pcall(function()
-		ashTagActive = not ashTagActive
-		local char = player.Character
-		if not char or not char:FindFirstChild("Head") then return end
-		local head = char.Head
-		local existingTag = head:FindFirstChild("AshTagGui")
-		if existingTag then existingTag:Destroy() end
-
-		if ashTagActive then
-			local billboardGui = Instance.new("BillboardGui")
-			billboardGui.Name = "AshTagGui"
-			billboardGui.Size = UDim2.new(0, 140, 0, 40)
-			billboardGui.StudsOffset = Vector3.new(0, 2.5, 0)
-			billboardGui.AlwaysOnTop = true
-			billboardGui.Parent = head
-
-			local textLabel = Instance.new("TextLabel")
-			textLabel.Size = UDim2.new(1, 0, 1, 0)
-			textLabel.BackgroundTransparency = 1
-			textLabel.Text = "ASH..-AYE"
-			textLabel.TextColor3 = Color3.fromRGB(255, 60, 60)
-			textLabel.TextStrokeTransparency = 0
-			textLabel.TextSize = 20
-			textLabel.Font = Enum.Font.GothamBold
-			textLabel.Parent = billboardGui
-		end
-	end)
-end)
-
-local espActive = false
-btnESP.MouseButton1Click:Connect(function()
-	pcall(function()
-		espActive = not espActive
-		for _, p in ipairs(Players:GetPlayers()) do
-			if p ~= player and p.Character then
-				local highlight = p.Character:FindFirstChild("ASH_ESP")
-				if espActive then
-					if not highlight then
-						highlight = Instance.new("Highlight")
-						highlight.Name = "ASH_ESP"
-						highlight.FillColor = Color3.fromRGB(255, 50, 50)
-						highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-						highlight.FillTransparency = 0.5
-						highlight.Parent = p.Character
-					end
-				else
-					if highlight then highlight:Destroy() end
-				end
-			end
-		end
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 17: Visuals Logic Part 2)
-btnXray.MouseButton1Click:Connect(function()
-	pcall(function()
-		for _, v in ipairs(Workspace:GetDescendants()) do
-			if v:IsA("BasePart") and not v:IsDescendantOf(player.Character) then
-				v.Transparency = v.Transparency == 0 and 0.6 or 0
-			end
-		end
-	end)
-end)
-
-btnNightVision.MouseButton1Click:Connect(function()
-	pcall(function()
-		Lighting.Ambient = Lighting.Ambient == Color3.fromRGB(0,0,0) and Color3.fromRGB(0,255,100) or Color3.fromRGB(0,0,0)
-	end)
-end)
-
-btnChams.MouseButton1Click:Connect(function()
-	pcall(function()
-		for _, p in ipairs(Players:GetPlayers()) do
-			if p ~= player and p.Character then
-				for _, part in ipairs(p.Character:GetChildren()) do
-					if part:IsA("BasePart") and not part:FindFirstChild("ChamBox") then
-						local box = Instance.new("BoxHandleAdornment")
-						box.Name = "ChamBox"
-						box.Size = part.Size
-						box.Color3 = Color3.fromRGB(0, 255, 255)
-						box.AlwaysOnTop = true
-						box.Adornee = part
-						box.ZIndex = 5
-						box.Parent = part
-					end
+		if success and result and result.data then
+			for _, server in ipairs(result.data) do
+				if server.playing < server.maxPlayers and server.id ~= game.JobId then
+					TeleportService:TeleportToPlaceInstance(game.PlaceId, server.id, player)
+					break
 				end
 			end
 		end
 	end)
 end)
 
-btnFov120.MouseButton1Click:Connect(function() pcall(function() camera.FieldOfView = 120 end) end)
-btnFov30.MouseButton1Click:Connect(function() pcall(function() camera.FieldOfView = 30 end) end)
--- ASH..-AYE Admin Panel v5 (Block 18: Visuals Logic Part 3)
-btnClearVisuals.MouseButton1Click:Connect(function()
-	pcall(function()
-		for _, p in ipairs(Players:GetPlayers()) do
-			if p.Character then
-				for _, v in ipairs(p.Character:GetDescendants()) do
-					if v:IsA("Highlight") or v:IsA("BillboardGui") or v.Name == "ChamBox" then v:Destroy() end
-				end
-			end
-		end
-	end)
-end)
-
-btnThermal.MouseButton1Click:Connect(function()
-	pcall(function()
-		Lighting.OutdoorAmbient = Color3.fromRGB(255, 0, 0)
-		Lighting.Ambient = Color3.fromRGB(0, 0, 255)
-	end)
-end)
-
-btnBlur.MouseButton1Click:Connect(function()
-	pcall(function()
-		local blur = Lighting:FindFirstChildOfClass("BlurEffect") or Instance.new("BlurEffect")
-		blur.Size = 12
-		blur.Parent = Lighting
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 20: Utility Logic Part 2)
-btnCopyPos.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root and setclipboard then setclipboard(tostring(root.CFrame)) end
-	end)
-end)
-
-btnRemoveFog.MouseButton1Click:Connect(function()
-	pcall(function()
-		Lighting.FogEnd = 999999
-		Lighting.FogStart = 999999
-	end)
-end)
-
-local uiHidden = false
-btnHideUI.MouseButton1Click:Connect(function()
-	pcall(function()
-		uiHidden = not uiHidden
-		StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, not uiHidden)
-	end)
-end)
-
-local statsActive, statsLabel = false, nil
-btnPing.MouseButton1Click:Connect(function()
-	pcall(function()
-		statsActive = not statsActive
-		if statsActive then
-			statsLabel = Instance.new("TextLabel")
-			statsLabel.Size = UDim2.new(0, 160, 0, 25)
-			statsLabel.Position = UDim2.new(1, -170, 0, 10)
-			statsLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-			statsLabel.TextColor3 = Color3.fromRGB(0, 255, 150)
-			statsLabel.TextSize = 11
-			statsLabel.Font = Enum.Font.GothamBold
-			statsLabel.ZIndex = 2000
-			statsLabel.Parent = screenGui
-			Instance.new("UICorner", statsLabel).CornerRadius = UDim.new(0, 6)
-
-			RunService.RenderStepped:Connect(function(dt)
-				pcall(function()
-					if statsActive and statsLabel then
-						local fps = math.floor(1 / dt)
-						statsLabel.Text = " FPS: " .. fps .. " | ASH v5"
-					elseif statsLabel then statsLabel:Destroy() end
-				end)
-			end)
-		elseif statsLabel then statsLabel:Destroy() end
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 21: Utility Logic Part 3)
-btnClientAntiKick.MouseButton1Click:Connect(function()
-	pcall(function()
-		local mt = getrawmetatable(game)
-		if setreadonly then setreadonly(mt, false) end
-		local old = mt.__namecall
-		mt.__namecall = newcclosure(function(self, ...)
-			local method = getnamecallmethod()
-			if method == "Kick" or method == "kick" then return end
-			return old(self, ...)
-		end)
-	end)
-end)
-
-btnMuteSounds.MouseButton1Click:Connect(function()
-	pcall(function()
-		for _, v in ipairs(Workspace:GetDescendants()) do
-			if v:IsA("Sound") then v:Stop() end
-		end
-	end)
-end)
-
-btnForcefield.MouseButton1Click:Connect(function()
-	pcall(function()
-		local char = player.Character
-		if char then Instance.new("ForceField", char) end
-	end)
-end)
-
-btnCommandBar.MouseButton1Click:Connect(function()
-	pcall(function()
-		local cmd = Instance.new("TextBox")
-		cmd.Size = UDim2.new(0, 300, 0, 30)
-		cmd.Position = UDim2.new(0.5, -150, 0.9, 0)
-		cmd.PlaceholderText = "Type command here..."
-		cmd.Parent = screenGui
-		cmd.FocusLost:Connect(function(enter)
-			if enter then print("Executed: " .. cmd.Text) cmd:Destroy() end
-		end)
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 23: Fun Logic Part 1)
-btnParticleShield.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then
-			local pe = Instance.new("ParticleEmitter")
-			pe.Texture = "rbxassetid://243664672"
-			pe.Rate = 50
-			pe.Parent = root
-		end
-	end)
-end)
-
-btnSizeChanger.MouseButton1Click:Connect(function()
-	pcall(function()
-		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-		if hum and hum:FindFirstChild("BodyHeightScale") then
-			hum.BodyHeightScale.Value = 3
-			hum.BodyWidthScale.Value = 3
-		end
-	end)
-end)
-
-btnTinyScale.MouseButton1Click:Connect(function()
-	pcall(function()
-		local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-		if hum and hum:FindFirstChild("BodyHeightScale") then
-			hum.BodyHeightScale.Value = 0.3
-			hum.BodyWidthScale.Value = 0.3
-		end
-	end)
-end)
-
-local disco = false
-btnDiscoWorld.MouseButton1Click:Connect(function()
-	pcall(function()
-		disco = not disco
-		task.spawn(function()
-			while disco do
-				Lighting.Ambient = Color3.fromRGB(math.random(0,255), math.random(0,255), math.random(0,255))
-				task.wait(0.2)
-			end
-		end)
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 24: Fun Logic Part 2)
-btnCamShake.MouseButton1Click:Connect(function()
-	pcall(function()
-		task.spawn(function()
-			for i = 1, 20 do
-				camera.CFrame = camera.CFrame * CFrame.new(math.random(-1,1), math.random(-1,1), 0)
-				task.wait(0.05)
-			end
-		end)
-	end)
-end)
-
-btnInvertCam.MouseButton1Click:Connect(function() pcall(function() camera.CFrame = camera.CFrame * CFrame.Angles(0, 0, math.rad(180)) end) end)
-
-local strobe = false
-btnFlashWorld.MouseButton1Click:Connect(function()
-	pcall(function()
-		strobe = not strobe
-		task.spawn(function()
-			while strobe do
-				Lighting.Brightness = Lighting.Brightness == 0 and 5 or 0
-				task.wait(0.1)
-			end
-		end)
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 25: World Logic Part 1)
-btnRemoveBase.MouseButton1Click:Connect(function()
-	pcall(function()
-		local b = Workspace:FindFirstChild("Baseplate") or Workspace:FindFirstChild("BasePlate")
-		if b then b:Destroy() end
-	end)
-end)
-
-btnGlassFloor.MouseButton1Click:Connect(function()
-	pcall(function()
-		local b = Workspace:FindFirstChild("Baseplate")
-		if b then b.Material = Enum.Material.Glass b.Transparency = 0.5 end
-	end)
-end)
-
-btnVoidTP.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then root.CFrame = CFrame.new(0, -200, 0) end
-	end)
-end)
-
-btnSpawnPlatform.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then
-			local p = Instance.new("Part")
-			p.Size = Vector3.new(10, 1, 10)
-			p.Position = root.Position - Vector3.new(0, 3, 0)
-			p.Anchored = true
-			p.Parent = Workspace
-		end
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 26: World Logic Part 2)
-btnDayLock.MouseButton1Click:Connect(function() pcall(function() Lighting.ClockTime = 12 end) end)
-btnNightLock.MouseButton1Click:Connect(function() pcall(function() Lighting.ClockTime = 0 end) end)
-
-btnUnanchorWorld.MouseButton1Click:Connect(function()
-	pcall(function()
-		for _, v in ipairs(Workspace:GetDescendants()) do
-			if v:IsA("BasePart") then v.Anchored = false end
-		end
-	end)
-end)
-
-btnTimeFreeze.MouseButton1Click:Connect(function()
-	pcall(function()
-		for _, v in ipairs(Workspace:GetDescendants()) do
-			if v:IsA("BasePart") then v.Anchored = true end
-		end
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 27: World Logic Part 3)
-btnPlatformGen.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then
-			local p = Instance.new("Part")
-			p.Size = Vector3.new(4, 1, 4)
-			p.Position = root.Position - Vector3.new(0, 3, 0)
-			p.Anchored = true
-			p.Color = Color3.fromRGB(255, 65, 65)
-			p.Parent = Workspace
-		end
-	end)
-end)
-
-btnSpeedRing.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then
-			local ring = Instance.new("Part")
-			ring.Shape = Enum.PartType.Cylinder
-			ring.Size = Vector3.new(0.2, 6, 6)
-			ring.CFrame = root.CFrame * CFrame.Angles(0, 0, math.rad(90))
-			ring.Anchored = true
-			ring.Transparency = 0.5
-			ring.Color = Color3.fromRGB(0, 255, 255)
-			ring.Parent = Workspace
-			task.delay(2, function() ring:Destroy() end)
-		end
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 28: World Logic Part 4)
-btnAmbRed.MouseButton1Click:Connect(function() pcall(function() Lighting.Ambient = Color3.fromRGB(255, 0, 0) end) end)
-btnAmbBlue.MouseButton1Click:Connect(function() pcall(function() Lighting.Ambient = Color3.fromRGB(0, 0, 255) end) end)
-btnAmbGreen.MouseButton1Click:Connect(function() pcall(function() Lighting.Ambient = Color3.fromRGB(0, 255, 0) end) end)
-btnAmbYellow.MouseButton1Click:Connect(function() pcall(function() Lighting.Ambient = Color3.fromRGB(255, 255, 0) end) end)
-
-btnLocalFire.MouseButton1Click:Connect(function()
-	pcall(function()
-		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if root then Instance.new("Fire", root) end
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 29: World Logic Part 5)
-btnHeadx10.MouseButton1Click:Connect(function()
-	pcall(function()
-		local head = player.Character and player.Character:FindFirstChild("Head")
-		if head then head.Size = Vector3.new(5, 5, 5) end
-	end)
-end)
-
-btnResetCharColor.MouseButton1Click:Connect(function()
-	pcall(function()
-		local char = player.Character
-		if char then
-			for _, p in ipairs(char:GetChildren()) do
-				if p:IsA("BasePart") then p.Color = Color3.fromRGB(240, 240, 240) end
-			end
-		end
-	end)
-end)
--- ASH..-AYE Admin Panel v5 (Block 30: Initializer)
-task.spawn(function()
-	print("==========================================")
-	print("ASH..-AYE Admin Panel v5 Fully Loaded!")
-	print("200 FE Commands & Safety Tests Initialized")
-	print("==========================================")
-	mainFrame.Visible = true
-end)
+mainFrame.Visible = true
+print("ASH..-AYE Admin Panel v5 Loaded Successfully!")
