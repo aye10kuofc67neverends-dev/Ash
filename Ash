@@ -48,7 +48,7 @@ ASH.titleLabel = Instance.new("TextLabel")
 ASH.titleLabel.Size = UDim2.new(0, 240, 1, 0)
 ASH.titleLabel.Position = UDim2.new(0, 12, 0, 0)
 ASH.titleLabel.BackgroundTransparency = 1
-ASH.titleLabel.Text = "ASH..-AYE v5 [200 COMMANDS]"
+ASH.titleLabel.Text = "ASH..-AYE v5 [152 COMMANDS]"
 ASH.titleLabel.TextColor3 = Color3.fromRGB(255, 65, 65)
 ASH.titleLabel.TextSize = 13
 ASH.titleLabel.Font = Enum.Font.GothamBold
@@ -326,4 +326,4 @@ end)
 -- ASH..-AYE v5 (Block 10: Finalizer & Startup)
 local ASH = shared.ASH
 ASH.mainFrame.Visible = true
-print("ASH..-AYE Admin Panel v5 Successfully Initialized across 10 blocks!")
+print("ASH..-AYE Admin Panel v5")
