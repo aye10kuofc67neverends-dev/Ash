@@ -69,7 +69,7 @@ ASH.searchBox.Font = Enum.Font.Gotham
 ASH.searchBox.ZIndex = 102
 ASH.searchBox.Parent = ASH.topBar
 Instance.new("UICorner", ASH.searchBox).CornerRadius = UDim.new(0, 6)
--- ASH..-AYE v5 (Block 4: Tabs & Canvas Sizing)
+-- ASH..-AYE v5 (Block 4: Fixed Canvas Engine)
 local ASH = shared.ASH
 ASH.tabBar = Instance.new("Frame")
 ASH.tabBar.Size = UDim2.new(1, -16, 0, 26)
@@ -104,7 +104,7 @@ local function createTab(tabName)
 	container.BackgroundTransparency = 1
 	container.BorderSizePixel = 0
 	container.ScrollBarThickness = 5
-	container.CanvasSize = UDim2.new(0, 0, 0, 0)
+	container.CanvasSize = UDim2.new(0, 0, 0, 500) -- Preset canvas size so buttons render instantly
 	container.Visible = false
 	container.ZIndex = 101
 	container.Parent = ASH.mainFrame
@@ -116,11 +116,16 @@ local function createTab(tabName)
 	grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
 	grid.Parent = container
 
-	grid:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-		container.CanvasSize = UDim2.new(0, 0, 0, grid.AbsoluteContentSize.Y + 15)
-	end)
+	-- Dynamic resize listener with instant recalculation
+	local function updateCanvas()
+		task.wait(0.05)
+		container.CanvasSize = UDim2.new(0, 0, 0, grid.AbsoluteContentSize.Y + 20)
+	end
 
-	ASH.tabContainers[tabName] = {Button = tabBtn, Container = container}
+	grid:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateCanvas)
+	container.ChildAdded:Connect(updateCanvas)
+
+	ASH.tabContainers[tabName] = {Button = tabBtn, Container = container, Grid = grid}
 	return container
 end
 
@@ -136,6 +141,8 @@ local function switchTab(selected)
 			data.Container.Visible = true
 			data.Button.BackgroundColor3 = Color3.fromRGB(255, 65, 65)
 			data.Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+			-- Force canvas calculation when switching tabs
+			data.Container.CanvasSize = UDim2.new(0, 0, 0, data.Grid.AbsoluteContentSize.Y + 20)
 		else
 			data.Container.Visible = false
 			data.Button.BackgroundColor3 = Color3.fromRGB(30, 30, 42)
@@ -159,6 +166,35 @@ ASH.searchBox:GetPropertyChangedSignal("Text"):Connect(function()
 		end
 	end
 end)
+-- ASH..-AYE v5 (Block 5: Button Factory & Declarations Part 1)
+local ASH = shared.ASH
+local function createButton(parentContainer, name, labelText, order)
+	local btn = Instance.new("TextButton")
+	btn.Name = name
+	btn.BackgroundColor3 = Color3.fromRGB(36, 36, 50)
+	btn.Text = labelText
+	btn.TextColor3 = Color3.fromRGB(240, 240, 240)
+	btn.TextSize = 10
+	btn.Font = Enum.Font.GothamBold
+	btn.TextWrapped = true
+	btn.LayoutOrder = order
+	btn.ZIndex = 105
+	btn.Parent = parentContainer
+	Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 5)
+	table.insert(ASH.registeredButtons, {Button = btn, Label = labelText})
+	return btn
+end
+
+ASH.btnFly = createButton(ASH.mainTab, "BtnFly", "1. Fly", 1)
+ASH.btnGoto = createButton(ASH.mainTab, "BtnGoto", "2. Go To", 2)
+ASH.btnSpeed = createButton(ASH.mainTab, "BtnSpeed", "3. Speed", 3)
+ASH.btnJump = createButton(ASH.mainTab, "BtnJump", "4. Jump", 4)
+ASH.btnNoclip = createButton(ASH.mainTab, "BtnNoclip", "5. Noclip", 5)
+ASH.btnFling = createButton(ASH.mainTab, "BtnFling", "6. Spin Fling", 6)
+ASH.btnFreeze = createButton(ASH.mainTab, "BtnFreeze", "7. Freeze Self", 7)
+ASH.btnGodMode = createButton(ASH.mainTab, "BtnGodMode", "8. Anti-Damage", 8)
+ASH.btnAnchor = createButton(ASH.mainTab, "BtnAnchor", "9. Anchor Root", 9)
+ASH.btnKill = createButton(ASH.mainTab, "BtnKill", "10. Reset Self", 10)
 -- ASH..-AYE v5 (Block 6: Button Declarations Part 2)
 local ASH = shared.ASH
 local function createButton(parentContainer, name, labelText, order)
