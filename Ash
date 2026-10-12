@@ -18,7 +18,7 @@ ASH.DISCORD_INVITE = "https://discord.gg/WUaDHv55e"
 
 local existingGui = ASH.playerGui:FindFirstChild("ASH_AYE_AdminPanel")
 if existingGui then existingGui:Destroy() end
--- ASH..-AYE v4 (Block 2: GUI Container Window)
+-- ASH..-AYE v4 (Block 2: GUI Container Frame)
 local ASH = shared.ASH
 
 ASH.screenGui = Instance.new("ScreenGui")
@@ -40,7 +40,7 @@ ASH.mainFrame.ZIndex = 100
 ASH.mainFrame.Parent = ASH.screenGui
 
 Instance.new("UICorner", ASH.mainFrame).CornerRadius = UDim.new(0, 10)
--- ASH..-AYE v4 (Block 3: Top Bar, Search & Discord Button)
+-- ASH..-AYE v4 (Block 3: Header & Discord Button)
 local ASH = shared.ASH
 
 ASH.topBar = Instance.new("Frame")
@@ -142,7 +142,7 @@ minimizedTab.MouseButton1Click:Connect(function()
 	ASH.mainFrame.Visible = true
 	minimizedTab.Visible = false
 end)
--- ASH..-AYE v4 (Block 4: Category Tabs & Mobile Canvas)
+-- ASH..-AYE v4 (Block 4: Tabs & Scrolling Engine)
 local ASH = shared.ASH
 
 ASH.tabBar = Instance.new("Frame")
@@ -264,7 +264,7 @@ function ASH.createButton(parentContainer, name, labelText, order, callback)
 	end
 	return btn
 end
--- ASH..-AYE v4 (Block 5: Main Tab Features)
+-- ASH..-AYE v4 (Block 5: Main Tab Part 1)
 local ASH = shared.ASH
 ASH.isFlying = false
 ASH.bodyVelocity, ASH.bodyGyro, ASH.flyConnection = nil, nil, nil
@@ -391,6 +391,8 @@ ASH.createButton(ASH.mainTab, "BtnGoto", "2. Go To", 2, function()
 		end
 	end
 end)
+-- ASH..-AYE v4 (Block 6: Main Tab Part 2)
+local ASH = shared.ASH
 
 ASH.createButton(ASH.mainTab, "BtnSpeed", "3. Speed (2x)", 3, function()
 	local hum = ASH.player.Character and ASH.player.Character:FindFirstChildOfClass("Humanoid")
@@ -426,7 +428,7 @@ ASH.createButton(ASH.mainTab, "BtnKill", "7. Reset Self", 7, function()
 		ASH.player.Character:FindFirstChildOfClass("Humanoid").Health = 0
 	end
 end)
--- ASH..-AYE v4 (Block 6: Movement Tab Features)
+-- ASH..-AYE v4 (Block 7: Movement Tab)
 local ASH = shared.ASH
 
 ASH.infJumpActive = false
@@ -488,7 +490,7 @@ end)
 
 ASH.createButton(ASH.moveTab, "BtnHighGravity", "13. High Gravity", 6, function() ASH.Workspace.Gravity = 500 end)
 ASH.createButton(ASH.moveTab, "BtnLowGravity", "14. Zero Gravity", 7, function() ASH.Workspace.Gravity = 0 end)
--- ASH..-AYE v4 (Block 7: Visuals & Utility Features)
+-- ASH..-AYE v4 (Block 8: Visuals Tab)
 local ASH = shared.ASH
 
 ASH.isInvisible = false
@@ -524,6 +526,8 @@ ASH.createButton(ASH.visTab, "BtnESP", "17. Box ESP", 3, function()
 		end
 	end
 end)
+-- ASH..-AYE v4 (Block 9: Utility Tab)
+local ASH = shared.ASH
 
 ASH.createButton(ASH.utilTab, "BtnRejoin", "18. Rejoin", 1, function() ASH.TeleportService:Teleport(game.PlaceId, ASH.player) end)
 
@@ -548,7 +552,7 @@ ASH.createButton(ASH.utilTab, "BtnFPS", "20. FPS Boost", 3, function()
 	end
 	ASH.Lighting.GlobalShadows = false
 end)
--- ASH..-AYE v4 (Block 8: Fun Features & Startup)
+-- ASH..-AYE v4 (Block 10: Fun/World Features & Startup)
 local ASH = shared.ASH
 
 ASH.createButton(ASH.funTab, "BtnParticleShield", "21. Particle Shield", 1, function()
@@ -573,6 +577,5 @@ end)
 
 ASH.mainFrame.Visible = true
 print("==========================================")
-print("ASH..-AYE Admin Panel v4 Loaded Successfully!")
-print("Shared state active across all 8 blocks.")
+print("ASH..-AYE Admin Panel v4 Successfully Loaded across 10 blocks!")
 print("==========================================")
