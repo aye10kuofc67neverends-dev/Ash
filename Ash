@@ -626,6 +626,138 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 					if distance > 0.5 then
 						local moveDir = direction.Unit
 						local newPos = currentPos + (moveDir * speed * dt)
+-- ASH..-AYE v4 (Block 9: Fun Tab Commands 79-90 - Fully Functional)
+local ASH = shared.ASH
+
+ASH.shadowEntityActive = false
+ASH.shadowThread = nil
+ASH.shadowModel = nil
+ASH.fogBackup = {
+	FogColor = ASH.Lighting.FogColor,
+	FogEnd = ASH.Lighting.FogEnd,
+	FogStart = ASH.Lighting.FogStart,
+	Brightness = ASH.Lighting.Brightness,
+	ClockTime = ASH.Lighting.ClockTime,
+	OutdoorAmbient = ASH.Lighting.OutdoorAmbient
+}
+
+-- 79. Particle Shield
+ASH.createButton(ASH.funTab, "BtnParticleShield", "79. Particle Shield", 1, function() 
+	local root = ASH.player.Character and ASH.player.Character:FindFirstChild("HumanoidRootPart")
+	if root then
+		local pe = root:FindFirstChild("ASH_ShieldParticles") or Instance.new("ParticleEmitter")
+		pe.Name = "ASH_ShieldParticles"
+		pe.Texture = "rbxassetid://243664672"
+		pe.Rate = 60
+		pe.Speed = NumberRange.new(5, 10)
+		pe.Parent = root
+	end
+end)
+
+-- 80. Shadow Entity Toggle with Black Fog & 6-Part R6 Monster
+ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function()
+	ASH.shadowEntityActive = not ASH.shadowEntityActive
+
+	if ASH.shadowEntityActive then
+		ASH.fogBackup.FogColor = ASH.Lighting.FogColor
+		ASH.fogBackup.FogEnd = ASH.Lighting.FogEnd
+		ASH.fogBackup.FogStart = ASH.Lighting.FogStart
+		ASH.fogBackup.Brightness = ASH.Lighting.Brightness
+		ASH.fogBackup.ClockTime = ASH.Lighting.ClockTime
+		ASH.fogBackup.OutdoorAmbient = ASH.Lighting.OutdoorAmbient
+
+		ASH.Lighting.Brightness = 0
+		ASH.Lighting.ClockTime = 0
+		ASH.Lighting.OutdoorAmbient = Color3.fromRGB(0, 0, 0)
+		ASH.Lighting.FogColor = Color3.fromRGB(0, 0, 0)
+		ASH.Lighting.FogStart = 0
+		ASH.Lighting.FogEnd = 30
+
+		local existingAtmos = ASH.Lighting:FindFirstChildOfClass("Atmosphere")
+		if existingAtmos then existingAtmos:Destroy() end
+
+		local customAtmos = Instance.new("Atmosphere")
+		customAtmos.Name = "ASH_DarkAtmosphere"
+		customAtmos.Density = 0.98
+		customAtmos.Offset = 0
+		customAtmos.Color = Color3.fromRGB(0, 0, 0)
+		customAtmos.Decay = Color3.fromRGB(0, 0, 0)
+		customAtmos.Glare = 0
+		customAtmos.Haze = 10
+		customAtmos.Parent = ASH.Lighting
+
+		local char = ASH.player.Character
+		if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+
+		local shadowModel = Instance.new("Model")
+		shadowModel.Name = "R6ShadowMonster"
+
+		local blackColor = Color3.fromRGB(0, 0, 0)
+		local plasticMat = Enum.Material.SmoothPlastic
+
+		local function createLimb(name, size)
+			local part = Instance.new("Part")
+			part.Name = name
+			part.Size = size
+			part.Color = blackColor
+			part.Material = plasticMat
+			part.CanCollide = false
+			part.Anchored = true
+			part.Parent = shadowModel
+			return part
+		end
+
+		local torso = createLimb("Torso", Vector3.new(2, 2, 1))
+		local head = createLimb("Head", Vector3.new(1.2, 1.2, 1.2))
+		local leftArm = createLimb("Left Arm", Vector3.new(1, 2, 1))
+		local rightArm = createLimb("Right Arm", Vector3.new(1, 2, 1))
+		local leftLeg = createLimb("Left Leg", Vector3.new(1, 2, 1))
+		local rightLeg = createLimb("Right Leg", Vector3.new(1, 2, 1))
+
+		local eye1 = Instance.new("Part")
+		eye1.Name = "LeftEye"
+		eye1.Size = Vector3.new(0.2, 0.2, 0.2)
+		eye1.Color = Color3.fromRGB(255, 0, 0)
+		eye1.Material = Enum.Material.Neon
+		eye1.CanCollide = false
+		eye1.Anchored = true
+		eye1.Parent = shadowModel
+
+		local eye2 = eye1:Clone()
+		eye2.Name = "RightEye"
+		eye2.Parent = shadowModel
+
+		shadowModel.Parent = ASH.Workspace
+		ASH.shadowModel = shadowModel
+
+		local function updateR6CFrame(centerCFrame)
+			torso.CFrame = centerCFrame
+			head.CFrame = centerCFrame * CFrame.new(0, 1.5, 0)
+			leftArm.CFrame = centerCFrame * CFrame.new(-1.5, 0, 0)
+			rightArm.CFrame = centerCFrame * CFrame.new(1.5, 0, 0)
+			leftLeg.CFrame = centerCFrame * CFrame.new(-0.5, -2, 0)
+			rightLeg.CFrame = centerCFrame * CFrame.new(0.5, -2, 0)
+			
+			eye1.CFrame = head.CFrame * CFrame.new(-0.25, 0.15, -0.6)
+			eye2.CFrame = head.CFrame * CFrame.new(0.25, 0.15, -0.6)
+		end
+
+		updateR6CFrame(char.HumanoidRootPart.CFrame * CFrame.new(0, 0, -20))
+
+		ASH.shadowThread = task.spawn(function()
+			local speed = 10
+			while ASH.shadowEntityActive and shadowModel and torso.Parent do
+				local dt = ASH.RunService.Heartbeat:Wait()
+				local pChar = ASH.player.Character
+				if pChar and pChar:FindFirstChild("HumanoidRootPart") and pChar:FindFirstChildOfClass("Humanoid") then
+					local targetPos = pChar.HumanoidRootPart.Position
+					local currentPos = torso.Position
+					local direction = (targetPos - currentPos)
+					local distance = direction.Magnitude
+
+					if distance > 0.5 then
+						local moveDir = direction.Unit
+						local newPos = currentPos + (moveDir * speed * dt)
 						local nextCFrame = CFrame.new(newPos, targetPos)
 						
 						updateR6CFrame(nextCFrame)
@@ -640,7 +772,6 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 
 		ASH.StarterGui:SetCore("SendNotification", {Title = "ASH..-AYE Admin", Text = "Black Fog Active! Run!", Duration = 3})
 	else
-		-- Toggle OFF: Clean Up & Restore Lighting
 		if ASH.shadowThread then task.cancel(ASH.shadowThread) end
 		if ASH.shadowModel then ASH.shadowModel:Destroy() end
 
@@ -658,16 +789,128 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 	end
 end)
 
-ASH.createButton(ASH.funTab, "BtnTinyScale", "81. Scale Tiny", 3, function() print("Scale Tiny Enabled") end)
-ASH.createButton(ASH.funTab, "BtnDiscoWorld", "82. Disco Lighting", 4, function() print("Disco Mode Active") end)
-ASH.createButton(ASH.funTab, "BtnSpinCam", "83. Spin Camera", 5, function() print("Spin Camera Active") end)
-ASH.createButton(ASH.funTab, "BtnRainbowSky", "84. Rainbow Sky", 6, function() print("Rainbow Sky Active") end)
-ASH.createButton(ASH.funTab, "BtnConfetti", "85. Confetti Burst", 7, function() print("Confetti Burst Spawned") end)
-ASH.createButton(ASH.funTab, "BtnSoundSpam", "86. Audio Glitch", 8, function() print("Audio Glitch Spawned") end)
-ASH.createButton(ASH.funTab, "BtnCamShake", "87. Cam Shake", 9, function() print("Cam Shake Active") end)
-ASH.createButton(ASH.funTab, "BtnInvertCam", "88. Upside Down", 10, function() ASH.camera.CFrame = ASH.camera.CFrame * CFrame.Angles(0, 0, math.rad(180)) end)
-ASH.createButton(ASH.funTab, "BtnReverseKeys", "89. Reverse Keys", 11, function() print("Reverse Keys Active") end)
-ASH.createButton(ASH.funTab, "BtnFlashWorld", "90. Strobe Light", 12, function() print("Strobe Light Active") end)
+-- 81. Scale Tiny
+ASH.createButton(ASH.funTab, "BtnTinyScale", "81. Scale Tiny", 3, function() 
+	local char = ASH.player.Character
+	if char then
+		for _, part in ipairs(char:GetDescendants()) do
+			if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+				part.Size = part.Size * 0.4
+			end
+		end
+	end
+end)
+
+-- 82. Disco Lighting Toggle
+ASH.discoActive = false
+ASH.createButton(ASH.funTab, "BtnDiscoWorld", "82. Disco Lighting", 4, function() 
+	ASH.discoActive = not ASH.discoActive
+	task.spawn(function()
+		while ASH.discoActive do
+			ASH.Lighting.Ambient = Color3.fromRGB(math.random(0,255), math.random(0,255), math.random(0,255))
+			ASH.Lighting.OutdoorAmbient = Color3.fromRGB(math.random(0,255), math.random(0,255), math.random(0,255))
+			task.wait(0.2)
+		end
+	end)
+end)
+
+-- 83. Spin Camera Toggle
+ASH.spinCamActive = false
+ASH.createButton(ASH.funTab, "BtnSpinCam", "83. Spin Camera", 5, function() 
+	ASH.spinCamActive = not ASH.spinCamActive
+	task.spawn(function()
+		local angle = 0
+		while ASH.spinCamActive do
+			angle = angle + 2
+			ASH.camera.CFrame = ASH.camera.CFrame * CFrame.Angles(0, 0, math.rad(2))
+			task.wait(0.02)
+		end
+	end)
+end)
+
+-- 84. Rainbow Sky Toggle
+ASH.rainbowSkyActive = false
+ASH.createButton(ASH.funTab, "BtnRainbowSky", "84. Rainbow Sky", 6, function() 
+	ASH.rainbowSkyActive = not ASH.rainbowSkyActive
+	task.spawn(function()
+		local hue = 0
+		while ASH.rainbowSkyActive do
+			hue = (hue + 0.01) % 1
+			ASH.Lighting.OutdoorAmbient = Color3.fromHSV(hue, 1, 1)
+			task.wait(0.05)
+		end
+	end)
+end)
+
+-- 85. Confetti Burst
+ASH.createButton(ASH.funTab, "BtnConfetti", "85. Confetti Burst", 7, function() 
+	local root = ASH.player.Character and ASH.player.Character:FindFirstChild("HumanoidRootPart")
+	if root then
+		local emitter = Instance.new("ParticleEmitter")
+		emitter.Texture = "rbxassetid://258128463"
+		emitter.Rate = 200
+		emitter.Speed = NumberRange.new(15, 30)
+		emitter.Lifetime = NumberRange.new(2, 4)
+		emitter.Parent = root
+		task.wait(1.5)
+		emitter.Enabled = false
+		task.wait(3)
+		emitter:Destroy()
+	end
+end)
+
+-- 86. Audio Glitch Effect
+ASH.createButton(ASH.funTab, "BtnSoundSpam", "86. Audio Glitch", 8, function() 
+	local sound = Instance.new("Sound")
+	sound.SoundId = "rbxassetid://9114223178"
+	sound.Volume = 1
+	sound.Parent = ASH.playerGui
+	sound:Play()
+	task.wait(2)
+	sound:Destroy()
+end)
+
+-- 87. Cam Shake
+ASH.createButton(ASH.funTab, "BtnCamShake", "87. Cam Shake", 9, function() 
+	task.spawn(function()
+		local startCFrame = ASH.camera.CFrame
+		for i = 1, 20 do
+			local offsetX = math.random(-5, 5) / 10
+			local offsetY = math.random(-5, 5) / 10
+			ASH.camera.CFrame = startCFrame * CFrame.new(offsetX, offsetY, 0)
+			task.wait(0.02)
+		end
+		ASH.camera.CFrame = startCFrame
+	end)
+end)
+
+-- 88. Upside Down Camera
+ASH.createButton(ASH.funTab, "BtnInvertCam", "88. Upside Down", 10, function() 
+	ASH.camera.CFrame = ASH.camera.CFrame * CFrame.Angles(0, 0, math.rad(180)) 
+end)
+
+-- 89. Reverse Movement Keys Toggle
+ASH.reverseKeysActive = false
+ASH.createButton(ASH.funTab, "BtnReverseKeys", "89. Reverse Keys", 11, function() 
+	ASH.reverseKeysActive = not ASH.reverseKeysActive
+	local hum = ASH.player.Character and ASH.player.Character:FindFirstChildOfClass("Humanoid")
+	if hum then
+		hum.WalkSpeed = ASH.reverseKeysActive and -16 or 16
+	end
+end)
+
+-- 90. Strobe Light Toggle
+ASH.strobeActive = false
+ASH.createButton(ASH.funTab, "BtnFlashWorld", "90. Strobe Light", 12, function() 
+	ASH.strobeActive = not ASH.strobeActive
+	task.spawn(function()
+		while ASH.strobeActive do
+			ASH.Lighting.Brightness = ASH.Lighting.Brightness == 0 and 5 or 0
+			task.wait(0.05)
+		end
+		ASH.Lighting.Brightness = 1
+	end)
+end)
 -- ASH..-AYE v4 (Block 10: World Tab Commands 91-100 & Finalizer)
 local ASH = shared.ASH
 
