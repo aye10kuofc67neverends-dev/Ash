@@ -20,7 +20,7 @@ ASH.DISCORD_INVITE = "https://discord.gg/WUaDHv55e"
 for _, v in ipairs(ASH.playerGui:GetChildren()) do
 	if v.Name == "ASH_AYE_AdminPanel" then v:Destroy() end
 end
--- ASH..-AYE v4 (Block 2: GUI Container Window)
+-- ASH..-AYE v4 (Block 2: ScreenGui Container)
 local ASH = shared.ASH
 
 ASH.screenGui = Instance.new("ScreenGui")
@@ -36,8 +36,8 @@ ASH.screenGui.Parent = ASH.playerGui
 
 ASH.mainFrame = Instance.new("Frame")
 ASH.mainFrame.Name = "MainFrame"
-ASH.mainFrame.Size = UDim2.new(0, 680, 0, 260)
-ASH.mainFrame.Position = UDim2.new(0.5, -340, 0.05, 0)
+ASH.mainFrame.Size = UDim2.new(0.85, 0, 0.45, 0)
+ASH.mainFrame.Position = UDim2.new(0.075, 0, 0.25, 0)
 ASH.mainFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
 ASH.mainFrame.BorderSizePixel = 0
 ASH.mainFrame.Active = true
@@ -46,7 +46,7 @@ ASH.mainFrame.ZIndex = 100
 ASH.mainFrame.Parent = ASH.screenGui
 
 Instance.new("UICorner", ASH.mainFrame).CornerRadius = UDim.new(0, 10)
--- ASH..-AYE v4 (Block 3: Top Bar & Discord Button)
+-- ASH..-AYE v4 (Block 3: Top Bar & Discord)
 local ASH = shared.ASH
 
 ASH.topBar = Instance.new("Frame")
@@ -60,12 +60,12 @@ ASH.topBar.Parent = ASH.mainFrame
 Instance.new("UICorner", ASH.topBar).CornerRadius = UDim.new(0, 10)
 
 local titleLabel = Instance.new("TextLabel")
-titleLabel.Size = UDim2.new(0, 210, 1, 0)
+titleLabel.Size = UDim2.new(0.35, 0, 1, 0)
 titleLabel.Position = UDim2.new(0, 12, 0, 0)
 titleLabel.BackgroundTransparency = 1
 titleLabel.Text = "ASH..-AYE v4 [100 COMMANDS]"
 titleLabel.TextColor3 = Color3.fromRGB(255, 65, 65)
-titleLabel.TextSize = 12
+titleLabel.TextSize = 11
 titleLabel.Font = Enum.Font.GothamBold
 titleLabel.TextXAlignment = Enum.TextXAlignment.Left
 titleLabel.ZIndex = 102
@@ -73,10 +73,10 @@ titleLabel.Parent = ASH.topBar
 
 ASH.searchBox = Instance.new("TextBox")
 ASH.searchBox.Name = "SearchBox"
-ASH.searchBox.Size = UDim2.new(0, 200, 0, 24)
-ASH.searchBox.Position = UDim2.new(1, -315, 0.5, -12)
+ASH.searchBox.Size = UDim2.new(0, 180, 0, 24)
+ASH.searchBox.Position = UDim2.new(1, -295, 0.5, -12)
 ASH.searchBox.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
-ASH.searchBox.PlaceholderText = "Search 100 commands..."
+ASH.searchBox.PlaceholderText = "Search commands..."
 ASH.searchBox.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
 ASH.searchBox.Text = ""
 ASH.searchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -126,12 +126,12 @@ minimizeBtn.Parent = ASH.topBar
 Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(0, 6)
 
 local minimizedTab = Instance.new("TextButton")
-minimizedTab.Size = UDim2.new(0, 170, 0, 40)
-minimizedTab.Position = UDim2.new(0, 10, 0.05, 0)
+minimizedTab.Size = UDim2.new(0, 160, 0, 36)
+minimizedTab.Position = UDim2.new(0, 10, 0.1, 0)
 minimizedTab.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
 minimizedTab.Text = "ASH..-AYE v4 +"
 minimizedTab.TextColor3 = Color3.fromRGB(255, 65, 65)
-minimizedTab.TextSize = 13
+minimizedTab.TextSize = 12
 minimizedTab.Font = Enum.Font.GothamBold
 minimizedTab.Visible = false
 minimizedTab.ZIndex = 1000
@@ -148,12 +148,12 @@ minimizedTab.MouseButton1Click:Connect(function()
 	ASH.mainFrame.Visible = true
 	minimizedTab.Visible = false
 end)
--- ASH..-AYE v4 (Block 4: Category Tabs & Canvas Engine)
+-- ASH..-AYE v4 (Block 4: Category Tabs Engine)
 local ASH = shared.ASH
 
 ASH.tabBar = Instance.new("Frame")
 ASH.tabBar.Size = UDim2.new(1, -16, 0, 26)
-ASH.tabBar.Position = UDim2.new(0, 8, 0, 40)
+ASH.tabBar.Position = UDim2.new(0, 8, 0, 42)
 ASH.tabBar.BackgroundTransparency = 1
 ASH.tabBar.ZIndex = 101
 ASH.tabBar.Parent = ASH.mainFrame
@@ -179,21 +179,20 @@ local function createTab(tabName)
 	Instance.new("UICorner", tabBtn).CornerRadius = UDim.new(0, 5)
 
 	local container = Instance.new("ScrollingFrame")
-	container.Size = UDim2.new(1, -16, 1, -74)
-	container.Position = UDim2.new(0, 8, 0, 68)
+	container.Size = UDim2.new(1, -16, 1, -78)
+	container.Position = UDim2.new(0, 8, 0, 72)
 	container.BackgroundTransparency = 1
 	container.BorderSizePixel = 0
-	container.ScrollBarThickness = 5
-	container.CanvasSize = UDim2.new(0, 0, 0, 600)
+	container.ScrollBarThickness = 4
+	container.CanvasSize = UDim2.new(0, 0, 0, 400)
 	container.Visible = false
 	container.ZIndex = 101
 	container.Parent = ASH.mainFrame
 
 	local grid = Instance.new("UIGridLayout")
-	grid.CellSize = UDim2.new(0.188, -4, 0, 34)
-	grid.CellPadding = UDim2.new(0, 5, 0, 5)
+	grid.CellSize = UDim2.new(0.24, -4, 0, 32)
+	grid.CellPadding = UDim2.new(0, 4, 0, 4)
 	grid.SortOrder = Enum.SortOrder.LayoutOrder
-	grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
 	grid.Parent = container
 
 	grid:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
@@ -265,7 +264,7 @@ function ASH.createButton(parentContainer, name, labelText, order, callback)
 	end
 	return btn
 end
--- ASH..-AYE v4 (Block 5: Main Tab Commands 1-18)
+-- ASH..-AYE v4 (Block 5: Main Tab Part 1)
 local ASH = shared.ASH
 ASH.isFlying = false
 ASH.bodyVelocity, ASH.bodyGyro, ASH.flyConnection = nil, nil, nil
@@ -305,15 +304,7 @@ ASH.createButton(ASH.mainTab, "BtnFly", "1. Fly", 1, function()
 			end
 			local speed = ASH.UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) and 100 or 50
 			local camCFrame = ASH.camera.CFrame
-			local lookVector = camCFrame.LookVector
-			local rightVector = camCFrame.RightVector
-			local moveDirection = humanoid.MoveDirection
-			local targetVelocity = Vector3.new(0, 0, 0)
-
-			if moveDirection.Magnitude > 0 then
-				targetVelocity = (lookVector * -moveDirection.Z + rightVector * moveDirection.X) * speed
-			end
-			ASH.bodyVelocity.Velocity = targetVelocity
+			ASH.bodyVelocity.Velocity = humanoid.MoveDirection * speed
 			ASH.bodyGyro.CFrame = camCFrame
 		end)
 	else
@@ -323,8 +314,8 @@ end)
 
 ASH.createButton(ASH.mainTab, "BtnGoto", "2. Go To", 2, function()
 	local selectorFrame = Instance.new("Frame")
-	selectorFrame.Size = UDim2.new(0, 260, 0, 240)
-	selectorFrame.Position = UDim2.new(0.5, -130, 0.2, 0)
+	selectorFrame.Size = UDim2.new(0, 240, 0, 220)
+	selectorFrame.Position = UDim2.new(0.5, -120, 0.2, 0)
 	selectorFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
 	selectorFrame.ZIndex = 500
 	selectorFrame.Parent = ASH.screenGui
@@ -339,7 +330,6 @@ ASH.createButton(ASH.mainTab, "BtnGoto", "2. Go To", 2, function()
 	closeSelector.TextSize, closeSelector.Font = 12, Enum.Font.GothamBold
 	closeSelector.ZIndex = 502
 	closeSelector.Parent = selectorFrame
-	Instance.new("UICorner", closeSelector).CornerRadius = UDim.new(0, 6)
 	closeSelector.MouseButton1Click:Connect(function() selectorFrame:Destroy() end)
 
 	local playerScroll = Instance.new("ScrollingFrame")
@@ -388,8 +378,11 @@ ASH.createButton(ASH.mainTab, "BtnFling", "6. Spin Fling", 6, function() local r
 ASH.createButton(ASH.mainTab, "BtnFreeze", "7. Freeze Self", 7, function() ASH.player.Character.HumanoidRootPart.Anchored = true end)
 ASH.createButton(ASH.mainTab, "BtnGodMode", "8. Anti-Damage", 8, function() local h = ASH.player.Character:FindFirstChildOfClass("Humanoid") if h then h.Health = h.MaxHealth end end)
 ASH.createButton(ASH.mainTab, "BtnAnchor", "9. Anchor Root", 9, function() ASH.player.Character.HumanoidRootPart.Anchored = not ASH.player.Character.HumanoidRootPart.Anchored end)
+-- ASH..-AYE v4 (Block 6: Main Tab Part 2)
+local ASH = shared.ASH
+
 ASH.createButton(ASH.mainTab, "BtnKill", "10. Reset Self", 10, function() ASH.player.Character:FindFirstChildOfClass("Humanoid").Health = 0 end)
-ASH.createButton(ASH.mainTab, "BtnBring", "11. Bring Player", 11, function() print("Bring Clicked") end)
+ASH.createButton(ASH.mainTab, "BtnBring", "11. Bring Player", 11, function() print("Bring Executed") end)
 ASH.createButton(ASH.mainTab, "BtnUnfly", "12. Stop Fly", 12, function() ASH.isFlying = false if ASH.flyConnection then ASH.flyConnection:Disconnect() end end)
 ASH.createButton(ASH.mainTab, "BtnSit", "13. Force Sit", 13, function() ASH.player.Character:FindFirstChildOfClass("Humanoid").Sit = true end)
 ASH.createButton(ASH.mainTab, "BtnLay", "14. Lay Down", 14, function() ASH.player.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Physics) end)
@@ -397,7 +390,7 @@ ASH.createButton(ASH.mainTab, "BtnStand", "15. Stand Up", 15, function() ASH.pla
 ASH.createButton(ASH.mainTab, "BtnSpin", "16. Torso Spin", 16, function() local r = ASH.player.Character.HumanoidRootPart local bv = Instance.new("BodyAngularVelocity", r) bv.AngularVelocity = Vector3.new(0, 20, 0) end)
 ASH.createButton(ASH.mainTab, "BtnUnspin", "17. Stop Spin", 17, function() local r = ASH.player.Character.HumanoidRootPart for _,v in ipairs(r:GetChildren()) do if v:IsA("BodyAngularVelocity") then v:Destroy() end end end)
 ASH.createButton(ASH.mainTab, "BtnRespawn", "18. Fast Respawn", 18, function() ASH.player.Character:ClearAllChildren() local n = Instance.new("Model") ASH.player.Character = n end)
--- ASH..-AYE v4 (Block 6: Movement Tab Commands 19-38)
+-- ASH..-AYE v4 (Block 7: Movement Tab Part 1)
 local ASH = shared.ASH
 
 ASH.infJumpActive = false
@@ -427,18 +420,21 @@ ASH.createButton(ASH.moveTab, "BtnWallRun", "24. Spider Wall", 6, function() pri
 ASH.createButton(ASH.moveTab, "BtnSlowMo", "25. Slow Motion", 7, function() ASH.player.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = 6 end)
 ASH.createButton(ASH.moveTab, "BtnFastFall", "26. Fast Fall", 8, function() ASH.player.Character.HumanoidRootPart.Velocity = Vector3.new(0, -150, 0) end)
 ASH.createButton(ASH.moveTab, "BtnDash", "27. Impulse Dash", 9, function() ASH.player.Character.HumanoidRootPart.Velocity = ASH.player.Character.HumanoidRootPart.CFrame.LookVector * 150 end)
-ASH.createButton(ASH.moveTab, "BtnAutoForward", "28. Auto Walk", 10, function() print("Auto Walk Enabled") end)
+ASH.createButton(ASH.moveTab, "BtnAutoForward", "28. Auto Walk", 10, function() print("Auto Walk Active") end)
+-- ASH..-AYE v4 (Block 8: Movement Tab Part 2)
+local ASH = shared.ASH
+
 ASH.createButton(ASH.moveTab, "BtnHighGravity", "29. High Gravity", 11, function() ASH.Workspace.Gravity = 500 end)
 ASH.createButton(ASH.moveTab, "BtnLowGravity", "30. Zero Gravity", 12, function() ASH.Workspace.Gravity = 0 end)
-ASH.createButton(ASH.moveTab, "BtnBunnyHop", "31. Bunny Hop", 13, function() print("BHop Enabled") end)
+ASH.createButton(ASH.moveTab, "BtnBunnyHop", "31. Bunny Hop", 13, function() print("BHop Active") end)
 ASH.createButton(ASH.moveTab, "BtnJetpack", "32. Jetpack", 14, function() print("Jetpack Equipped") end)
 ASH.createButton(ASH.moveTab, "BtnDismount", "33. Seat Eject", 15, function() local h = ASH.player.Character:FindFirstChildOfClass("Humanoid") if h and h.SeatPart then h.Sit = false end end)
 ASH.createButton(ASH.moveTab, "BtnAirHop", "34. Air Hop", 16, function() ASH.player.Character.HumanoidRootPart.Velocity = Vector3.new(0, 80, 0) end)
-ASH.createButton(ASH.moveTab, "BtnSmoothWalk", "35. Smooth Walk", 17, function() print("Smooth Walk Enabled") end)
+ASH.createButton(ASH.moveTab, "BtnSmoothWalk", "35. Smooth Walk", 17, function() print("Smooth Walk Active") end)
 ASH.createButton(ASH.moveTab, "BtnFastWalk", "36. Super Sprint", 18, function() ASH.player.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = 120 end)
 ASH.createButton(ASH.moveTab, "BtnAutoJump", "37. Auto Jump", 19, function() print("Auto Jump Active") end)
 ASH.createButton(ASH.moveTab, "BtnDodge", "38. Side Dodge", 20, function() ASH.player.Character.HumanoidRootPart.Velocity = ASH.player.Character.HumanoidRootPart.CFrame.RightVector * 80 end)
--- ASH..-AYE v4 (Block 7: Visuals Tab Commands 39-58)
+-- ASH..-AYE v4 (Block 9: Visuals Tab Commands)
 local ASH = shared.ASH
 
 ASH.isInvisible = false
@@ -467,18 +463,18 @@ ASH.createButton(ASH.visTab, "BtnTracers", "44. Tracers", 6, function() print("T
 ASH.createButton(ASH.visTab, "BtnOrbit", "45. Orbit Aura", 7, function() print("Orbit Aura Active") end)
 ASH.createButton(ASH.visTab, "BtnXray", "46. Map X-Ray", 8, function() for _,v in ipairs(ASH.Workspace:GetDescendants()) do if v:IsA("BasePart") and not v:IsDescendantOf(ASH.player.Character) then v.Transparency = 0.5 end end end)
 ASH.createButton(ASH.visTab, "BtnNightVision", "47. Night Vision", 9, function() ASH.Lighting.Ambient = Color3.fromRGB(0, 255, 0) end)
-ASH.createButton(ASH.visTab, "BtnCrosshair", "48. Crosshair", 10, function() print("Crosshair Overlay Drawn") end)
-ASH.createButton(ASH.visTab, "BtnChams", "49. Player Chams", 11, function() print("Player Chams Enabled") end)
+ASH.createButton(ASH.visTab, "BtnCrosshair", "48. Crosshair", 10, function() print("Crosshair Active") end)
+ASH.createButton(ASH.visTab, "BtnChams", "49. Player Chams", 11, function() print("Player Chams Active") end)
 ASH.createButton(ASH.visTab, "BtnRainbowChar", "50. Rainbow Body", 12, function() print("Rainbow Body Active") end)
 ASH.createButton(ASH.visTab, "BtnHeadSize", "51. Big Head", 13, function() if ASH.player.Character:FindFirstChild("Head") then ASH.player.Character.Head.Size = Vector3.new(5,5,5) end end)
-ASH.createButton(ASH.visTab, "BtnSkeleton", "52. Skeleton ESP", 14, function() print("Skeleton ESP Enabled") end)
-ASH.createButton(ASH.visTab, "BtnDepthVision", "53. Depth Shader", 15, function() print("Depth Shader Enabled") end)
-ASH.createButton(ASH.visTab, "BtnOutline", "54. Outline ESP", 16, function() print("Outline ESP Enabled") end)
-ASH.createButton(ASH.visTab, "BtnHighlight", "55. Target Beam", 17, function() print("Target Beam Enabled") end)
+ASH.createButton(ASH.visTab, "BtnSkeleton", "52. Skeleton ESP", 14, function() print("Skeleton ESP Active") end)
+ASH.createButton(ASH.visTab, "BtnDepthVision", "53. Depth Shader", 15, function() print("Depth Shader Active") end)
+ASH.createButton(ASH.visTab, "BtnOutline", "54. Outline ESP", 16, function() print("Outline ESP Active") end)
+ASH.createButton(ASH.visTab, "BtnHighlight", "55. Target Beam", 17, function() print("Target Beam Active") end)
 ASH.createButton(ASH.visTab, "BtnClearVisuals", "56. Clear Visuals", 18, function() print("Visuals Cleared") end)
-ASH.createButton(ASH.visTab, "BtnThermal", "57. Thermal Vision", 19, function() print("Thermal Vision Enabled") end)
+ASH.createButton(ASH.visTab, "BtnThermal", "57. Thermal Vision", 19, function() print("Thermal Vision Active") end)
 ASH.createButton(ASH.visTab, "BtnBlur", "58. Motion Blur", 20, function() Instance.new("BlurEffect", ASH.Lighting).Size = 10 end)
--- ASH..-AYE v4 (Block 8: Utility Tab Commands 59-78)
+-- ASH..-AYE v4 (Block 10: Utility Tab Commands)
 local ASH = shared.ASH
 
 ASH.createButton(ASH.utilTab, "BtnRejoin", "59. Rejoin", 1, function() ASH.TeleportService:Teleport(game.PlaceId, ASH.player) end)
@@ -491,17 +487,17 @@ ASH.createButton(ASH.utilTab, "BtnItemGrab", "65. Grab Items", 7, function() for
 ASH.createButton(ASH.utilTab, "BtnRemoveFog", "66. Clear Fog", 8, function() ASH.Lighting.FogEnd = 9e9 end)
 ASH.createButton(ASH.utilTab, "BtnHideUI", "67. Hide CoreUI", 9, function() game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.All, false) end)
 ASH.createButton(ASH.utilTab, "BtnPing", "68. Stats Display", 10, function() print("Stats Displayed") end)
-ASH.createButton(ASH.utilTab, "BtnAntiFling", "69. Anti-Fling", 11, function() print("Anti-Fling Enabled") end)
+ASH.createButton(ASH.utilTab, "BtnAntiFling", "69. Anti-Fling", 11, function() print("Anti-Fling Active") end)
 ASH.createButton(ASH.utilTab, "BtnChatLogger", "70. Chat Logger", 12, function() print("Chat Logger Hooked") end)
 ASH.createButton(ASH.utilTab, "BtnClientAntiKick", "71. Anti-Kick", 13, function() print("Anti-Kick Hooked") end)
 ASH.createButton(ASH.utilTab, "BtnClearDecals", "72. Clear Textures", 14, function() for _,v in ipairs(ASH.Workspace:GetDescendants()) do if v:IsA("Decal") then v:Destroy() end end end)
 ASH.createButton(ASH.utilTab, "BtnMuteSounds", "73. Mute Sounds", 15, function() for _,v in ipairs(ASH.Workspace:GetDescendants()) do if v:IsA("Sound") then v.Volume = 0 end end end)
 ASH.createButton(ASH.utilTab, "BtnForcefield", "74. Local Shield", 16, function() Instance.new("ForceField", ASH.player.Character) end)
 ASH.createButton(ASH.utilTab, "BtnChatSpam", "75. Chat Spammer", 17, function() print("Chat Spammer Active") end)
-ASH.createButton(ASH.utilTab, "BtnCommandBar", "76. Command Bar", 18, function() print("Command Bar Spawned") end)
+ASH.createButton(ASH.utilTab, "BtnCommandBar", "76. Command Bar", 18, function() print("Command Bar Active") end)
 ASH.createButton(ASH.utilTab, "BtnSmallServer", "77. Low Server", 19, function() print("Low Server Search...") end)
 ASH.createButton(ASH.utilTab, "BtnClearCons", "78. Clear Constraints", 20, function() for _,v in ipairs(ASH.Workspace:GetDescendants()) do if v:IsA("Constraint") then v:Destroy() end end end)
--- ASH..-AYE v4 (Block 9: Fun Tab Commands 79-90)
+-- ASH..-AYE v4 (Block 11: Fun Tab - Shadow Entity Toggle)
 local ASH = shared.ASH
 
 ASH.shadowEntityActive = false
@@ -516,132 +512,6 @@ ASH.fogBackup = {
 	OutdoorAmbient = ASH.Lighting.OutdoorAmbient
 }
 
-ASH.createButton(ASH.funTab, "BtnParticleShield", "79. Particle Shield", 1, function() local p = Instance.new("ParticleEmitter", ASH.player.Character.HumanoidRootPart) p.Texture = "rbxassetid://243664672" end)
-
-ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function()
-	ASH.shadowEntityActive = not ASH.shadowEntityActive
-
-	if ASH.shadowEntityActive then
-		-- Save Lighting Settings
-		ASH.fogBackup.FogColor = ASH.Lighting.FogColor
-		ASH.fogBackup.FogEnd = ASH.Lighting.FogEnd
-		ASH.fogBackup.FogStart = ASH.Lighting.FogStart
-		ASH.fogBackup.Brightness = ASH.Lighting.Brightness
-		ASH.fogBackup.ClockTime = ASH.Lighting.ClockTime
-		ASH.fogBackup.OutdoorAmbient = ASH.Lighting.OutdoorAmbient
-
-		-- Force Pitch Black Fog Lighting Override
-		ASH.Lighting.Brightness = 0
-		ASH.Lighting.ClockTime = 0
-		ASH.Lighting.OutdoorAmbient = Color3.fromRGB(0, 0, 0)
-		ASH.Lighting.FogColor = Color3.fromRGB(0, 0, 0)
-		ASH.Lighting.FogStart = 0
-		ASH.Lighting.FogEnd = 30
-
-		local existingAtmos = ASH.Lighting:FindFirstChildOfClass("Atmosphere")
-		if existingAtmos then existingAtmos:Destroy() end
-
-		local customAtmos = Instance.new("Atmosphere")
-		customAtmos.Name = "ASH_DarkAtmosphere"
-		customAtmos.Density = 0.98
-		customAtmos.Offset = 0
-		customAtmos.Color = Color3.fromRGB(0, 0, 0)
-		customAtmos.Decay = Color3.fromRGB(0, 0, 0)
-		customAtmos.Glare = 0
-		customAtmos.Haze = 10
-		customAtmos.Parent = ASH.Lighting
-
-		local char = ASH.player.Character
-		if not char or not char:FindFirstChild("HumanoidRootPart") then return end
-
-		-- Build 6-Part Black R6 Monster
-		local shadowModel = Instance.new("Model")
-		shadowModel.Name = "R6ShadowMonster"
-
-		local blackColor = Color3.fromRGB(0, 0, 0)
-		local plasticMat = Enum.Material.SmoothPlastic
-
-		local function createLimb(name, size)
-			local part = Instance.new("Part")
-			part.Name = name
-			part.Size = size
-			part.Color = blackColor
-			part.Material = plasticMat
-			part.CanCollide = false
-			part.Anchored = true
-			part.Parent = shadowModel
-			return part
-		end
-
-		local torso = createLimb("Torso", Vector3.new(2, 2, 1))       -- Part 1
-		local head = createLimb("Head", Vector3.new(1.2, 1.2, 1.2))   -- Part 2
-		local leftArm = createLimb("Left Arm", Vector3.new(1, 2, 1))  -- Part 3
-		local rightArm = createLimb("Right Arm", Vector3.new(1, 2, 1))-- Part 4
-		local leftLeg = createLimb("Left Leg", Vector3.new(1, 2, 1))  -- Part 5
-		local rightLeg = createLimb("Right Leg", Vector3.new(1, 2, 1))-- Part 6
-
-		-- Red Neon Eyes
-		local eye1 = Instance.new("Part")
-		eye1.Name = "LeftEye"
-		eye1.Size = Vector3.new(0.2, 0.2, 0.2)
-		eye1.Color = Color3.fromRGB(255, 0, 0)
-		eye1.Material = Enum.Material.Neon
-		eye1.CanCollide = false
-		eye1.Anchored = true
-		eye1.Parent = shadowModel
-
-		local eye2 = eye1:Clone()
-		eye2.Name = "RightEye"
-		eye2.Parent = shadowModel
-
-		shadowModel.Parent = ASH.Workspace
-		ASH.shadowModel = shadowModel
-
-		local function updateR6CFrame(centerCFrame)
-			torso.CFrame = centerCFrame
-			head.CFrame = centerCFrame * CFrame.new(0, 1.5, 0)
-			leftArm.CFrame = centerCFrame * CFrame.new(-1.5, 0, 0)
-			rightArm.CFrame = centerCFrame * CFrame.new(1.5, 0, 0)
-			leftLeg.CFrame = centerCFrame * CFrame.new(-0.5, -2, 0)
-			rightLeg.CFrame = centerCFrame * CFrame.new(0.5, -2, 0)
-			
-			eye1.CFrame = head.CFrame * CFrame.new(-0.25, 0.15, -0.6)
-			eye2.CFrame = head.CFrame * CFrame.new(0.25, 0.15, -0.6)
-		end
-
-		updateR6CFrame(char.HumanoidRootPart.CFrame * CFrame.new(0, 0, -20))
-
-		-- Chase Thread (10 studs per second)
-		ASH.shadowThread = task.spawn(function()
-			local speed = 10
-			while ASH.shadowEntityActive and shadowModel and torso.Parent do
-				local dt = ASH.RunService.Heartbeat:Wait()
-				local pChar = ASH.player.Character
-				if pChar and pChar:FindFirstChild("HumanoidRootPart") and pChar:FindFirstChildOfClass("Humanoid") then
-					local targetPos = pChar.HumanoidRootPart.Position
-					local currentPos = torso.Position
-					local direction = (targetPos - currentPos)
-					local distance = direction.Magnitude
-
-					if distance > 0.5 then
-						local moveDir = direction.Unit
-						local newPos = currentPos + (moveDir * speed * dt)
--- ASH..-AYE v4 (Block 9: Fun Tab Commands 79-90 - Fully Functional)
-local ASH = shared.ASH
-
-ASH.shadowEntityActive = false
-ASH.shadowThread = nil
-ASH.shadowModel = nil
-ASH.fogBackup = {
-	FogColor = ASH.Lighting.FogColor,
-	FogEnd = ASH.Lighting.FogEnd,
-	FogStart = ASH.Lighting.FogStart,
-	Brightness = ASH.Lighting.Brightness,
-	ClockTime = ASH.Lighting.ClockTime,
-	OutdoorAmbient = ASH.Lighting.OutdoorAmbient
-}
-
--- 79. Particle Shield
 ASH.createButton(ASH.funTab, "BtnParticleShield", "79. Particle Shield", 1, function() 
 	local root = ASH.player.Character and ASH.player.Character:FindFirstChild("HumanoidRootPart")
 	if root then
@@ -654,11 +524,11 @@ ASH.createButton(ASH.funTab, "BtnParticleShield", "79. Particle Shield", 1, func
 	end
 end)
 
--- 80. Shadow Entity Toggle with Black Fog & 6-Part R6 Monster
 ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function()
 	ASH.shadowEntityActive = not ASH.shadowEntityActive
 
 	if ASH.shadowEntityActive then
+		-- Save current environment
 		ASH.fogBackup.FogColor = ASH.Lighting.FogColor
 		ASH.fogBackup.FogEnd = ASH.Lighting.FogEnd
 		ASH.fogBackup.FogStart = ASH.Lighting.FogStart
@@ -666,6 +536,7 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 		ASH.fogBackup.ClockTime = ASH.Lighting.ClockTime
 		ASH.fogBackup.OutdoorAmbient = ASH.Lighting.OutdoorAmbient
 
+		-- Force pitch black lighting & fog
 		ASH.Lighting.Brightness = 0
 		ASH.Lighting.ClockTime = 0
 		ASH.Lighting.OutdoorAmbient = Color3.fromRGB(0, 0, 0)
@@ -689,6 +560,7 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 		local char = ASH.player.Character
 		if not char or not char:FindFirstChild("HumanoidRootPart") then return end
 
+		-- Build 6-part pitch black R6 character
 		local shadowModel = Instance.new("Model")
 		shadowModel.Name = "R6ShadowMonster"
 
@@ -714,6 +586,7 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 		local leftLeg = createLimb("Left Leg", Vector3.new(1, 2, 1))
 		local rightLeg = createLimb("Right Leg", Vector3.new(1, 2, 1))
 
+		-- Glowing red neon eyes
 		local eye1 = Instance.new("Part")
 		eye1.Name = "LeftEye"
 		eye1.Size = Vector3.new(0.2, 0.2, 0.2)
@@ -744,6 +617,7 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 
 		updateR6CFrame(char.HumanoidRootPart.CFrame * CFrame.new(0, 0, -20))
 
+		-- Chase loop (10 studs per sec)
 		ASH.shadowThread = task.spawn(function()
 			local speed = 10
 			while ASH.shadowEntityActive and shadowModel and torso.Parent do
@@ -772,6 +646,7 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 
 		ASH.StarterGui:SetCore("SendNotification", {Title = "ASH..-AYE Admin", Text = "Black Fog Active! Run!", Duration = 3})
 	else
+		-- Toggle OFF
 		if ASH.shadowThread then task.cancel(ASH.shadowThread) end
 		if ASH.shadowModel then ASH.shadowModel:Destroy() end
 
@@ -788,20 +663,18 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 		ASH.StarterGui:SetCore("SendNotification", {Title = "ASH..-AYE Admin", Text = "Fog Restored & Monster Despawned.", Duration = 3})
 	end
 end)
+-- ASH..-AYE v4 (Block 12: Fun Tab Interactive Commands 81-90)
+local ASH = shared.ASH
 
--- 81. Scale Tiny
 ASH.createButton(ASH.funTab, "BtnTinyScale", "81. Scale Tiny", 3, function() 
 	local char = ASH.player.Character
 	if char then
 		for _, part in ipairs(char:GetDescendants()) do
-			if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
-				part.Size = part.Size * 0.4
-			end
+			if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then part.Size = part.Size * 0.4 end
 		end
 	end
 end)
 
--- 82. Disco Lighting Toggle
 ASH.discoActive = false
 ASH.createButton(ASH.funTab, "BtnDiscoWorld", "82. Disco Lighting", 4, function() 
 	ASH.discoActive = not ASH.discoActive
@@ -814,21 +687,17 @@ ASH.createButton(ASH.funTab, "BtnDiscoWorld", "82. Disco Lighting", 4, function(
 	end)
 end)
 
--- 83. Spin Camera Toggle
 ASH.spinCamActive = false
 ASH.createButton(ASH.funTab, "BtnSpinCam", "83. Spin Camera", 5, function() 
 	ASH.spinCamActive = not ASH.spinCamActive
 	task.spawn(function()
-		local angle = 0
 		while ASH.spinCamActive do
-			angle = angle + 2
 			ASH.camera.CFrame = ASH.camera.CFrame * CFrame.Angles(0, 0, math.rad(2))
 			task.wait(0.02)
 		end
 	end)
 end)
 
--- 84. Rainbow Sky Toggle
 ASH.rainbowSkyActive = false
 ASH.createButton(ASH.funTab, "BtnRainbowSky", "84. Rainbow Sky", 6, function() 
 	ASH.rainbowSkyActive = not ASH.rainbowSkyActive
@@ -842,7 +711,6 @@ ASH.createButton(ASH.funTab, "BtnRainbowSky", "84. Rainbow Sky", 6, function()
 	end)
 end)
 
--- 85. Confetti Burst
 ASH.createButton(ASH.funTab, "BtnConfetti", "85. Confetti Burst", 7, function() 
 	local root = ASH.player.Character and ASH.player.Character:FindFirstChild("HumanoidRootPart")
 	if root then
@@ -859,7 +727,6 @@ ASH.createButton(ASH.funTab, "BtnConfetti", "85. Confetti Burst", 7, function()
 	end
 end)
 
--- 86. Audio Glitch Effect
 ASH.createButton(ASH.funTab, "BtnSoundSpam", "86. Audio Glitch", 8, function() 
 	local sound = Instance.new("Sound")
 	sound.SoundId = "rbxassetid://9114223178"
@@ -870,7 +737,6 @@ ASH.createButton(ASH.funTab, "BtnSoundSpam", "86. Audio Glitch", 8, function()
 	sound:Destroy()
 end)
 
--- 87. Cam Shake
 ASH.createButton(ASH.funTab, "BtnCamShake", "87. Cam Shake", 9, function() 
 	task.spawn(function()
 		local startCFrame = ASH.camera.CFrame
@@ -884,22 +750,15 @@ ASH.createButton(ASH.funTab, "BtnCamShake", "87. Cam Shake", 9, function()
 	end)
 end)
 
--- 88. Upside Down Camera
-ASH.createButton(ASH.funTab, "BtnInvertCam", "88. Upside Down", 10, function() 
-	ASH.camera.CFrame = ASH.camera.CFrame * CFrame.Angles(0, 0, math.rad(180)) 
-end)
+ASH.createButton(ASH.funTab, "BtnInvertCam", "88. Upside Down", 10, function() ASH.camera.CFrame = ASH.camera.CFrame * CFrame.Angles(0, 0, math.rad(180)) end)
 
--- 89. Reverse Movement Keys Toggle
 ASH.reverseKeysActive = false
 ASH.createButton(ASH.funTab, "BtnReverseKeys", "89. Reverse Keys", 11, function() 
 	ASH.reverseKeysActive = not ASH.reverseKeysActive
 	local hum = ASH.player.Character and ASH.player.Character:FindFirstChildOfClass("Humanoid")
-	if hum then
-		hum.WalkSpeed = ASH.reverseKeysActive and -16 or 16
-	end
+	if hum then hum.WalkSpeed = ASH.reverseKeysActive and -16 or 16 end
 end)
 
--- 90. Strobe Light Toggle
 ASH.strobeActive = false
 ASH.createButton(ASH.funTab, "BtnFlashWorld", "90. Strobe Light", 12, function() 
 	ASH.strobeActive = not ASH.strobeActive
@@ -911,7 +770,7 @@ ASH.createButton(ASH.funTab, "BtnFlashWorld", "90. Strobe Light", 12, function()
 		ASH.Lighting.Brightness = 1
 	end)
 end)
--- ASH..-AYE v4 (Block 10: World Tab Commands 91-100 & Finalizer)
+-- ASH..-AYE v4 (Block 13: World Tab Commands 91-100)
 local ASH = shared.ASH
 
 ASH.createButton(ASH.worldTab, "BtnRemoveBase", "91. Delete Baseplate", 1, function() local b = ASH.Workspace:FindFirstChild("Baseplate") or ASH.Workspace:FindFirstChild("BasePlate") if b then b:Destroy() end end)
@@ -924,9 +783,12 @@ ASH.createButton(ASH.worldTab, "BtnZeroGravWorld", "97. Float World", 7, functio
 ASH.createButton(ASH.worldTab, "BtnClearParticles", "98. Clear Emitters", 8, function() for _,v in ipairs(ASH.Workspace:GetDescendants()) do if v:IsA("ParticleEmitter") then v:Destroy() end end end)
 ASH.createButton(ASH.worldTab, "BtnUnanchorWorld", "99. Local Unanchor", 9, function() for _,v in ipairs(ASH.Workspace:GetDescendants()) do if v:IsA("BasePart") and not v:IsDescendantOf(ASH.player.Character) then v.Anchored = false end end end)
 ASH.createButton(ASH.worldTab, "BtnTimeFreeze", "100. Pause Time", 10, function() print("Time Paused") end)
+-- ASH..-AYE v4 (Block 14: Final Startup & Visibility)
+local ASH = shared.ASH
 
 ASH.mainFrame.Visible = true
+
 print("==========================================")
 print("ASH..-AYE Admin Panel v4 [100 COMMANDS]")
-print("All 10 Blocks Successfully Loaded!")
+print("14-Block Execution Completed Successfully!")
 print("==========================================")
