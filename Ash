@@ -1,4 +1,4 @@
--- ASH..-AYE v4 (Block 1: Services & Shared Environment)
+-- ASH..-AYE v4 (Block 1: Services & Environment)
 shared.ASH = shared.ASH or {}
 local ASH = shared.ASH
 
@@ -16,9 +16,11 @@ ASH.camera = ASH.Workspace.CurrentCamera
 ASH.playerGui = ASH.player:WaitForChild("PlayerGui", 10)
 ASH.DISCORD_INVITE = "https://discord.gg/WUaDHv55e"
 
-local existingGui = ASH.playerGui:FindFirstChild("ASH_AYE_AdminPanel")
-if existingGui then existingGui:Destroy() end
--- ASH..-AYE v4 (Block 2: GUI Container Frame)
+-- Clean up older UI instances to prevent overlapping
+for _, v in ipairs(ASH.playerGui:GetChildren()) do
+	if v.Name == "ASH_AYE_AdminPanel" then v:Destroy() end
+end
+-- ASH..-AYE v4 (Block 2: GUI Container Window)
 local ASH = shared.ASH
 
 ASH.screenGui = Instance.new("ScreenGui")
@@ -26,6 +28,10 @@ ASH.screenGui.Name = "ASH_AYE_AdminPanel"
 ASH.screenGui.ResetOnSpawn = false
 ASH.screenGui.DisplayOrder = 9999
 ASH.screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+pcall(function()
+	if syn and syn.protect_gui then syn.protect_gui(ASH.screenGui) end
+end)
 ASH.screenGui.Parent = ASH.playerGui
 
 ASH.mainFrame = Instance.new("Frame")
@@ -40,7 +46,7 @@ ASH.mainFrame.ZIndex = 100
 ASH.mainFrame.Parent = ASH.screenGui
 
 Instance.new("UICorner", ASH.mainFrame).CornerRadius = UDim.new(0, 10)
--- ASH..-AYE v4 (Block 3: Top Bar, Search Engine & Discord Button)
+-- ASH..-AYE v4 (Block 3: Top Bar & Discord Button)
 local ASH = shared.ASH
 
 ASH.topBar = Instance.new("Frame")
@@ -190,13 +196,9 @@ local function createTab(tabName)
 	grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
 	grid.Parent = container
 
-	local function updateCanvas()
-		task.wait(0.05)
+	grid:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 		container.CanvasSize = UDim2.new(0, 0, 0, grid.AbsoluteContentSize.Y + 20)
-	end
-
-	grid:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateCanvas)
-	container.ChildAdded:Connect(updateCanvas)
+	end)
 
 	ASH.tabContainers[tabName] = {Button = tabBtn, Container = container, Grid = grid}
 	return container
@@ -215,7 +217,6 @@ local function switchTab(selected)
 			data.Container.Visible = true
 			data.Button.BackgroundColor3 = Color3.fromRGB(255, 65, 65)
 			data.Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-			data.Container.CanvasSize = UDim2.new(0, 0, 0, data.Grid.AbsoluteContentSize.Y + 20)
 		else
 			data.Container.Visible = false
 			data.Button.BackgroundColor3 = Color3.fromRGB(30, 30, 42)
@@ -509,7 +510,10 @@ ASH.shadowModel = nil
 ASH.fogBackup = {
 	FogColor = ASH.Lighting.FogColor,
 	FogEnd = ASH.Lighting.FogEnd,
-	FogStart = ASH.Lighting.FogStart
+	FogStart = ASH.Lighting.FogStart,
+	Brightness = ASH.Lighting.Brightness,
+	ClockTime = ASH.Lighting.ClockTime,
+	OutdoorAmbient = ASH.Lighting.OutdoorAmbient
 }
 
 ASH.createButton(ASH.funTab, "BtnParticleShield", "79. Particle Shield", 1, function() local p = Instance.new("ParticleEmitter", ASH.player.Character.HumanoidRootPart) p.Texture = "rbxassetid://243664672" end)
@@ -518,92 +522,7 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 	ASH.shadowEntityActive = not ASH.shadowEntityActive
 
 	if ASH.shadowEntityActive then
-		-- Apply Black Fog
-		ASH.Lighting.FogColor = Color3.fromRGB(0, 0, 0)
-		ASH.Lighting.FogStart = 0
-		ASH.Lighting.FogEnd = 40
-
-		local char = ASH.player.Character
-		if not char or not char:FindFirstChild("HumanoidRootPart") then return end
-
-		local shadowModel = Instance.new("Model")
-		shadowModel.Name = "ShadowyFigure"
-
-		local shadowBody = Instance.new("Part")
-		shadowBody.Name = "HumanoidRootPart"
-		shadowBody.Size = Vector3.new(2.5, 6, 2.5)
-		shadowBody.Color = Color3.fromRGB(0, 0, 0)
-		shadowBody.Material = Enum.Material.SmoothPlastic
-		shadowBody.Transparency = 0.1
-		shadowBody.CanCollide = false
-		shadowBody.Anchored = true
-		shadowBody.CFrame = char.HumanoidRootPart.CFrame * CFrame.new(0, 0, -20)
-		shadowBody.Parent = shadowModel
-
-		local eye1 = Instance.new("Part")
-		eye1.Size = Vector3.new(0.3, 0.3, 0.3)
-		eye1.Color = Color3.fromRGB(255, 0, 0)
-		eye1.Material = Enum.Material.Neon
-		eye1.CanCollide = false
-		eye1.Anchored = true
-		eye1.CFrame = shadowBody.CFrame * CFrame.new(-0.4, 2, -1.2)
-		eye1.Parent = shadowModel
-
-		local eye2 = eye1:Clone()
-		eye2.CFrame = shadowBody.CFrame * CFrame.new(0.4, 2, -1.2)
-		eye2.Parent = shadowModel
-
-		shadowModel.Parent = ASH.Workspace
-		ASH.shadowModel = shadowModel
-
-		-- Movement Loop (10 studs per sec)
-		ASH.shadowThread = task.spawn(function()
-			local speed = 10
-			while ASH.shadowEntityActive and shadowModel and shadowBody.Parent do
-				local dt = ASH.RunService.Heartbeat:Wait()
-				local pChar = ASH.player.Character
-				if pChar and pChar:FindFirstChild("HumanoidRootPart") and pChar:FindFirstChildOfClass("Humanoid") then
-					local targetPos = pChar.HumanoidRootPart.Position
-					local currentPos = shadowBody.Position
-					local direction = (targetPos - currentPos)
-					local distance = direction.Magnitude
-
-					if distance > 0.5 then
-						local moveDir = direction.Unit
-						local newPos = currentPos + (moveDir * speed * dt)
-						shadowBody.CFrame = CFrame.new(newPos, targetPos)
-						eye1.CFrame = shadowBody.CFrame * CFrame.new(-0.4, 2, -1.2)
-						eye2.CFrame = shadowBody.CFrame * CFrame.new(0.4, 2, -1.2)
-
-						if distance <= 3.5 then
-							pChar:FindFirstChildOfClass("Humanoid").Health = 0
-						end
-					end
--- ASH..-AYE v4 (Block 9: Fun Tab - Fixed Black Fog & R6 Shadow Monster)
-local ASH = shared.ASH
-
-ASH.shadowEntityActive = false
-ASH.shadowThread = nil
-ASH.shadowModel = nil
-ASH.fogBackup = {
-	FogColor = ASH.Lighting.FogColor,
-	FogEnd = ASH.Lighting.FogEnd,
-	FogStart = ASH.Lighting.FogStart,
-	Brightness = ASH.Lighting.Brightness,
-	ClockTime = ASH.Lighting.ClockTime,
-	OutdoorAmbient = ASH.Lighting.OutdoorAmbient
-}
-
-ASH.createButton(ASH.funTab, "BtnParticleShield", "79. Particle Shield", 1, function() 
-	local p = Instance.new("ParticleEmitter", ASH.player.Character.HumanoidRootPart) 
-	p.Texture = "rbxassetid://243664672" 
-end)
-
-ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function()
-	ASH.shadowEntityActive = not ASH.shadowEntityActive
-
-	if ASH.shadowEntityActive then
-		-- 1. FORCED BLACK FOG FIX (Works across all games and graphics settings)
+		-- Save Lighting Settings
 		ASH.fogBackup.FogColor = ASH.Lighting.FogColor
 		ASH.fogBackup.FogEnd = ASH.Lighting.FogEnd
 		ASH.fogBackup.FogStart = ASH.Lighting.FogStart
@@ -611,6 +530,7 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 		ASH.fogBackup.ClockTime = ASH.Lighting.ClockTime
 		ASH.fogBackup.OutdoorAmbient = ASH.Lighting.OutdoorAmbient
 
+		-- Force Pitch Black Fog Lighting Override
 		ASH.Lighting.Brightness = 0
 		ASH.Lighting.ClockTime = 0
 		ASH.Lighting.OutdoorAmbient = Color3.fromRGB(0, 0, 0)
@@ -618,7 +538,6 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 		ASH.Lighting.FogStart = 0
 		ASH.Lighting.FogEnd = 30
 
-		-- Remove or override game atmosphere to enforce black fog
 		local existingAtmos = ASH.Lighting:FindFirstChildOfClass("Atmosphere")
 		if existingAtmos then existingAtmos:Destroy() end
 
@@ -635,7 +554,7 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 		local char = ASH.player.Character
 		if not char or not char:FindFirstChild("HumanoidRootPart") then return end
 
-		-- 2. Construct 6-Part R6 Character Model
+		-- Build 6-Part Black R6 Monster
 		local shadowModel = Instance.new("Model")
 		shadowModel.Name = "R6ShadowMonster"
 
@@ -654,14 +573,14 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 			return part
 		end
 
-		local torso = createLimb("Torso", Vector3.new(2, 2, 1))
-		local head = createLimb("Head", Vector3.new(1.2, 1.2, 1.2))
-		local leftArm = createLimb("Left Arm", Vector3.new(1, 2, 1))
-		local rightArm = createLimb("Right Arm", Vector3.new(1, 2, 1))
-		local leftLeg = createLimb("Left Leg", Vector3.new(1, 2, 1))
-		local rightLeg = createLimb("Right Leg", Vector3.new(1, 2, 1))
+		local torso = createLimb("Torso", Vector3.new(2, 2, 1))       -- Part 1
+		local head = createLimb("Head", Vector3.new(1.2, 1.2, 1.2))   -- Part 2
+		local leftArm = createLimb("Left Arm", Vector3.new(1, 2, 1))  -- Part 3
+		local rightArm = createLimb("Right Arm", Vector3.new(1, 2, 1))-- Part 4
+		local leftLeg = createLimb("Left Leg", Vector3.new(1, 2, 1))  -- Part 5
+		local rightLeg = createLimb("Right Leg", Vector3.new(1, 2, 1))-- Part 6
 
-		-- Glowing Red Eyes
+		-- Red Neon Eyes
 		local eye1 = Instance.new("Part")
 		eye1.Name = "LeftEye"
 		eye1.Size = Vector3.new(0.2, 0.2, 0.2)
@@ -692,7 +611,7 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 
 		updateR6CFrame(char.HumanoidRootPart.CFrame * CFrame.new(0, 0, -20))
 
-		-- 3. Movement Loop (10 studs per second)
+		-- Chase Thread (10 studs per second)
 		ASH.shadowThread = task.spawn(function()
 			local speed = 10
 			while ASH.shadowEntityActive and shadowModel and torso.Parent do
@@ -721,7 +640,7 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 
 		ASH.StarterGui:SetCore("SendNotification", {Title = "ASH..-AYE Admin", Text = "Black Fog Active! Run!", Duration = 3})
 	else
-		-- 4. Toggle OFF: Restore Lighting & Despawn
+		-- Toggle OFF: Clean Up & Restore Lighting
 		if ASH.shadowThread then task.cancel(ASH.shadowThread) end
 		if ASH.shadowModel then ASH.shadowModel:Destroy() end
 
