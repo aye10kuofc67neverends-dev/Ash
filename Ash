@@ -579,34 +579,38 @@ ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function
 							pChar:FindFirstChildOfClass("Humanoid").Health = 0
 						end
 					end
-				end
-			end
-		end)
+-- ASH..-AYE v4 (Block 9: Fun Tab Commands - R6 Shadow Monster)
+local ASH = shared.ASH
 
-		ASH.StarterGui:SetCore("SendNotification", {Title = "ASH..-AYE Admin", Text = "Shadowy Figure Spawned!", Duration = 3})
-	else
-		-- Stop & Clean Up
-		if ASH.shadowThread then task.cancel(ASH.shadowThread) end
-		if ASH.shadowModel then ASH.shadowModel:Destroy() end
+ASH.shadowEntityActive = false
+ASH.shadowThread = nil
+ASH.shadowModel = nil
+ASH.fogBackup = {
+	FogColor = ASH.Lighting.FogColor,
+	FogEnd = ASH.Lighting.FogEnd,
+	FogStart = ASH.Lighting.FogStart
+}
 
-		ASH.Lighting.FogColor = ASH.fogBackup.FogColor or Color3.fromRGB(192, 192, 192)
-		ASH.Lighting.FogEnd = ASH.fogBackup.FogEnd or 100000
-		ASH.Lighting.FogStart = ASH.fogBackup.FogStart or 0
-
-		ASH.StarterGui:SetCore("SendNotification", {Title = "ASH..-AYE Admin", Text = "Shadowy Figure Despawned.", Duration = 3})
-	end
+ASH.createButton(ASH.funTab, "BtnParticleShield", "79. Particle Shield", 1, function() 
+	local p = Instance.new("ParticleEmitter", ASH.player.Character.HumanoidRootPart) 
+	p.Texture = "rbxassetid://243664672" 
 end)
 
-ASH.createButton(ASH.funTab, "BtnTinyScale", "81. Scale Tiny", 3, function() print("Scale Tiny Enabled") end)
-ASH.createButton(ASH.funTab, "BtnDiscoWorld", "82. Disco Lighting", 4, function() print("Disco Mode Active") end)
-ASH.createButton(ASH.funTab, "BtnSpinCam", "83. Spin Camera", 5, function() print("Spin Camera Active") end)
-ASH.createButton(ASH.funTab, "BtnRainbowSky", "84. Rainbow Sky", 6, function() print("Rainbow Sky Active") end)
-ASH.createButton(ASH.funTab, "BtnConfetti", "85. Confetti Burst", 7, function() print("Confetti Burst Spawned") end)
-ASH.createButton(ASH.funTab, "BtnSoundSpam", "86. Audio Glitch", 8, function() print("Audio Glitch Spawned") end)
-ASH.createButton(ASH.funTab, "BtnCamShake", "87. Cam Shake", 9, function() print("Cam Shake Active") end)
-ASH.createButton(ASH.funTab, "BtnInvertCam", "88. Upside Down", 10, function() ASH.camera.CFrame = ASH.camera.CFrame * CFrame.Angles(0, 0, math.rad(180)) end)
-ASH.createButton(ASH.funTab, "BtnReverseKeys", "89. Reverse Keys", 11, function() print("Reverse Keys Active") end)
-ASH.createButton(ASH.funTab, "BtnFlashWorld", "90. Strobe Light", 12, function() print("Strobe Light Active") end)
+ASH.createButton(ASH.funTab, "BtnShadowEntity", "80. Shadow Entity", 2, function()
+	ASH.shadowEntityActive = not ASH.shadowEntityActive
+
+	if ASH.shadowEntityActive then
+		-- 1. Apply Black Fog Atmosphere
+		ASH.Lighting.FogColor = Color3.fromRGB(0, 0, 0)
+		ASH.Lighting.FogStart = 0
+		ASH.Lighting.FogEnd = 40
+
+		local char = ASH.player.Character
+		if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+
+		-- 2. Construct R6 Monster Model
+		local shadowModel = Instance.new("Model")
+		shadowModel.Name = "R
 -- ASH..-AYE v4 (Block 10: World Tab Commands 91-100 & Finalizer)
 local ASH = shared.ASH
 
